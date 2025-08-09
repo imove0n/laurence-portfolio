@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Portfolio</title>
+    <title>Laurence De Guzman - IT Consultant & Tech Leader</title>
     <style>
         * {
             margin: 0;
@@ -96,12 +96,23 @@
             border: 2px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
             animation: fadeInUp 1s ease 0.4s both;
+            margin-right: 1rem;
         }
 
         .btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-email {
+            background: #4285f4;
+            border-color: #4285f4;
+        }
+
+        .btn-email:hover {
+            background: #3367d6;
+            border-color: #3367d6;
         }
 
         .section {
@@ -182,6 +193,35 @@
             margin: 0 auto;
         }
 
+        .contact-info {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -251,8 +291,8 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
-                <li><a href="#strengths">Strengths</a></li>
                 <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -263,7 +303,8 @@
             <div class="hero-content">
                 <h1>Hi, I'm Laurence De Guzman</h1>
                 <p>IT Consultant & Tech Enthusiast from Bulacan</p>
-                <a href="#about" class="btn">Learn More About Me</a>
+                <a href="#contact" class="btn">Learn More About Me</a>
+                <a href="mailto:laurencedeguzman04142003@gmail.com" class="btn btn-email">📧 Email Me</a>
             </div>
         </div>
     </section>
@@ -310,28 +351,6 @@
                     <p><strong>Freelance | 2022-Present</strong><br>
                     Self-started repair business serving clients through social media. Perform diagnostics, repairs, and 
                     consultations for phones, laptops, and desktop systems with competitive pricing.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="strengths" class="section">
-            <h2>Core Strengths</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h3>Communication & Leadership</h3>
-                    <p>Excellent communication skills, comfortable as emcee for tech events, team collaboration, adaptive thinking</p>
-                </div>
-                <div class="skill-card">
-                    <h3>Operations & Management</h3>
-                    <p>Skilled in organizing events (small & large-scale), multitasking, time management, strategic execution</p>
-                </div>
-                <div class="skill-card">
-                    <h3>Problem Solving</h3>
-                    <p>Proactive mindset, adaptive thinking, troubleshooting complex technical issues, continuous learning approach</p>
-                </div>
-                <div class="skill-card">
-                    <h3>Approachable & Versatile</h3>
-                    <p>All-rounder in operations and tech support, comfortable with client-facing roles, self-motivated entrepreneur</p>
                 </div>
             </div>
         </section>
@@ -393,6 +412,14 @@
 
         <section id="contact" class="section">
             <h2>Get In Touch</h2>
+            
+            <div class="contact-info">
+                <h3>Ready to collaborate?</h3>
+                <p>I'm always open to discussing new opportunities, projects, or just having a chat about technology!</p>
+                <p>📧 <a href="mailto:laurencedeguzman04142003@gmail.com">laurencedeguzman04142003@gmail.com</a></p>
+                <p>📍 San Jose Del Monte City, Bulacan, Philippines</p>
+            </div>
+
             <form class="contact-form" onsubmit="handleSubmit(event)">
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -414,6 +441,7 @@
     <footer>
         <div class="container">
             <p>&copy; 2024 Laurence De Guzman. All rights reserved. | San Jose Del Monte City, Bulacan</p>
+            <p>💼 IT Consultant | 🔧 Hardware Specialist | 👥 Tech Leader</p>
         </div>
     </footer>
 
@@ -438,7 +466,14 @@
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData);
             
-            alert(`Thanks ${data.name}! Your message has been received. I'll get back to you soon at ${data.email}.`);
+            // Create email link
+            const subject = `Portfolio Contact from ${data.name}`;
+            const body = `Hi Laurence,\n\n${data.message}\n\nBest regards,\n${data.name}\n${data.email}`;
+            const emailLink = `mailto:laurencedeguzman04142003@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = emailLink;
+            
+            alert(`Thanks ${data.name}! Your email client will open to send the message.`);
             event.target.reset();
         }
 
@@ -448,9 +483,17 @@
             if (window.scrollY > 100) {
                 header.style.background = 'rgba(255, 255, 255, 0.95)';
                 header.style.backdropFilter = 'blur(20px)';
+                header.querySelector('.logo').style.color = '#333';
+                header.querySelectorAll('.nav-links a').forEach(link => {
+                    link.style.color = '#333';
+                });
             } else {
                 header.style.background = 'rgba(255, 255, 255, 0.1)';
                 header.style.backdropFilter = 'blur(10px)';
+                header.querySelector('.logo').style.color = 'white';
+                header.querySelectorAll('.nav-links a').forEach(link => {
+                    link.style.color = 'white';
+                });
             }
         });
 
