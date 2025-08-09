@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #f0f0f0;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section {
+            padding: 80px 0;
+            background: white;
+            margin: 20px 0;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            margin: 0 auto;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Laurence De Guzman</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#strengths">Strengths</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Hi, I'm Laurence De Guzman</h1>
+                <p>IT Consultant & Tech Enthusiast from Bulacan</p>
+                <a href="#about" class="btn">Learn More About Me</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section id="about" class="section">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="profile-img">👨‍💻</div>
+                <div>
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        I'm a 22-year-old IT Consultant and TUP Manila graduate with a BTVTED Major in Computer Programming. 
+                        My tech journey began in Grade 7 converting GBA games for Nokia phones, and evolved into becoming a 
+                        self-taught hardware technician offering affordable repair services to fellow students during college.
+                    </p>
+                    <br>
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        As Chief Operations Officer of Google Developer Student Clubs TUP Manila, I've developed strong 
+                        leadership and event management skills. My OJT experience at Elyon Solutions as an IT Consultant, 
+                        combined with ongoing freelance technical support work, has given me both business acumen and 
+                        hands-on technical expertise. I'm passionate about continuous learning and helping others succeed in tech.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <h2>Leadership & Experience</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Chief Operations Officer</h3>
+                    <p><strong>Google Developer Student Clubs - TUP Manila | 2024-2025</strong><br>
+                    Directed organizational strategies and execution across events. Coordinated multiple teams for event readiness, 
+                    participant engagement, and served as emcee for UI/UX workshops and AI events.</p>
+                </div>
+                <div class="project-card">
+                    <h3>IT Consultant (OJT)</h3>
+                    <p><strong>Elyon Solutions | 2024</strong><br>
+                    Participated in live client demos and business meetings. Gained hands-on experience with Odoo ERP system, 
+                    supporting various functional modules and advising clients on implementation.</p>
+                </div>
+                <div class="project-card">
+                    <h3>Technical Support Technician</h3>
+                    <p><strong>Freelance | 2022-Present</strong><br>
+                    Self-started repair business serving clients through social media. Perform diagnostics, repairs, and 
+                    consultations for phones, laptops, and desktop systems with competitive pricing.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="strengths" class="section">
+            <h2>Core Strengths</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Communication & Leadership</h3>
+                    <p>Excellent communication skills, comfortable as emcee for tech events, team collaboration, adaptive thinking</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Operations & Management</h3>
+                    <p>Skilled in organizing events (small & large-scale), multitasking, time management, strategic execution</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Problem Solving</h3>
+                    <p>Proactive mindset, adaptive thinking, troubleshooting complex technical issues, continuous learning approach</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Approachable & Versatile</h3>
+                    <p>All-rounder in operations and tech support, comfortable with client-facing roles, self-motivated entrepreneur</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Hardware & Technical Support</h3>
+                    <p>Self-taught technician specializing in phone, laptop & computer repair. Freelance services since 2022 with proven diagnostic and troubleshooting skills.</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Programming & Development</h3>
+                    <p>Python, Java, C#, C++, HTML, CSS, JavaScript, React.js, Next.js, Node.js, Tailwind CSS, CRUD operations, Database Management</p>
+                </div>
+                <div class="skill-card">
+                    <h3>IT Consulting & ERP</h3>
+                    <p>Odoo ERP implementation, Client consultations, Business process analysis, Live demos, System integration</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Leadership & Operations</h3>
+                    <p>Event management, Team coordination, Public speaking (Emcee), Community outreach, Strategic planning, Multi-tasking</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Web-Based AI Chatbot for BTVTED Students</h3>
+                    <p>Thesis project: AI-powered chatbot built with Next.js to support BTVTED programming students with continuous learning, addressing gaps in traditional teaching methods.</p>
+                    <div style="margin-top: 1rem;">
+                        <span style="background: #667eea; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 0.5rem;">Next.js</span>
+                        <span style="background: #764ba2; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 0.5rem;">AI/ML</span>
+                        <span style="background: #28a745; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Educational Tech</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3>Enhanced Flappy Bird Game</h3>
+                    <p>College project: Modified Flappy Bird with increased difficulty featuring attacking birds, moving obstacles, and dynamic challenges to create a more engaging gaming experience.</p>
+                    <div style="margin-top: 1rem;">
+                        <span style="background: #667eea; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 0.5rem;">Game Dev</span>
+                        <span style="background: #764ba2; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 0.5rem;">Python</span>
+                        <span style="background: #ffc107; color: black; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">UI/UX</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3>Freelance Technical Support Business</h3>
+                    <p>Self-started repair service offering affordable phone, laptop, and computer repairs to TUP community since 2022. Built client base through social media and word-of-mouth referrals.</p>
+                    <div style="margin-top: 1rem;">
+                        <span style="background: #667eea; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 0.5rem;">Hardware Repair</span>
+                        <span style="background: #764ba2; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 0.5rem;">Diagnostics</span>
+                        <span style="background: #28a745; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Entrepreneurship</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Get In Touch</h2>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; cursor: pointer;">Send Message</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Laurence De Guzman. All rights reserved. | San Jose Del Monte City, Bulacan</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission handler
+        function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            alert(`Thanks ${data.name}! Your message has been received. I'll get back to you soon at ${data.email}.`);
+            event.target.reset();
+        }
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(20px)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.1)';
+                header.style.backdropFilter = 'blur(10px)';
+            }
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
