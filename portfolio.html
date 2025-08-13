@@ -426,6 +426,63 @@
             font-size: 0.9rem;
         }
 
+        /* Resume Section */
+        .resume-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .resume-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .resume-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .resume-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .resume-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resume-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+        }
+
+        .resume-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .resume-btn.secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
         /* Contact Section */
         .contact-content {
             max-width: 600px;
@@ -457,6 +514,7 @@
             justify-content: center;
             gap: 1rem;
             margin-top: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .contact-link {
@@ -473,6 +531,44 @@
 
         .contact-link:hover {
             border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .social-link.facebook {
+            background: #1877f2;
+        }
+
+        .social-link.facebook:hover {
+            background: #166fe5;
+            transform: translateY(-2px);
+        }
+
+        .social-link.email {
+            background: #ea4335;
+        }
+
+        .social-link.email:hover {
+            background: #d93025;
             transform: translateY(-2px);
         }
 
@@ -945,6 +1041,14 @@
             .contact-links {
                 flex-direction: column;
             }
+
+            .social-links {
+                flex-direction: column;
+            }
+
+            .resume-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -962,6 +1066,7 @@
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#resume">Resume</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -981,7 +1086,7 @@
                     <i class="fas fa-comment-dots"></i>
                     Let's Connect
                 </a>
-                <a href="mailto:laurencedeguzman04142003@gmail.com" class="btn btn-outline">
+                <a href="mailto:laurencedeguzman04142003@gmail.com" class="btn btn-outline" target="_blank">
                     <i class="fas fa-envelope"></i>
                     Email Me
                 </a>
@@ -1176,6 +1281,39 @@
         </div>
     </section>
 
+    <!-- Resume Section -->
+    <section id="resume" class="section">
+        <div class="container">
+            <h2 class="section-title">Resume</h2>
+            <div class="resume-section fade-in">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <i class="fas fa-file-alt" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                </div>
+                <h3>
+                    <i class="fas fa-download" style="margin-right: 8px;"></i>
+                    Download My Resume
+                </h3>
+                <p>Get a comprehensive overview of my experience, skills, and achievements in tech leadership and development.</p>
+                <div class="resume-buttons">
+                    <a href="#" class="resume-btn" target="_blank" onclick="alert('Resume PDF will be available soon! For now, please contact me directly.')">
+                        <i class="fas fa-file-pdf"></i>
+                        Download PDF
+                    </a>
+                    <a href="#" class="resume-btn secondary" target="_blank" onclick="alert('Resume DOC will be available soon! For now, please contact me directly.')">
+                        <i class="fas fa-file-word"></i>
+                        Download DOC
+                    </a>
+                </div>
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                        Resume files will be available soon. In the meantime, feel free to contact me directly for the most up-to-date version.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="section">
         <div class="container">
@@ -1187,13 +1325,24 @@
                     <p>I'm always open to discussing new opportunities, projects, or just having a chat about technology!</p>
                     
                     <div class="contact-links">
-                        <a href="mailto:laurencedeguzman04142003@gmail.com" class="contact-link">
+                        <a href="mailto:laurencedeguzman04142003@gmail.com" class="contact-link" target="_blank">
                             <i class="fas fa-envelope"></i>
                             Email
                         </a>
                         <a href="#" class="contact-link">
                             <i class="fas fa-map-marker-alt"></i>
                             Bulacan, PH
+                        </a>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/imove0n" class="social-link facebook" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                        <a href="mailto:laurencedeguzman04142003@gmail.com" class="social-link email" target="_blank">
+                            <i class="fas fa-envelope"></i>
+                            Gmail
                         </a>
                     </div>
                 </div>
@@ -1224,7 +1373,7 @@
     <footer class="footer">
         <div class="container">
             <p>&copy; 2024 Laurence De Guzman. All rights reserved.</p>
-            <p> IT Consultant |  Hardware Specialist |  Tech Leader</p>
+            <p>IT Consultant | Hardware Specialist | Tech Leader</p>
         </div>
     </footer>
 
