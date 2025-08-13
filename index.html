@@ -243,17 +243,28 @@
         }
 
         .profile-image img {
-            width: 100%;
-            height: 100%;
+            width: calc(100% - 8px);
+            height: calc(100% - 8px);
             object-fit: cover;
             border-radius: 16px;
+            display: block;
         }
 
-        .profile-image i {
+        .profile-image .fallback-icon {
             font-size: 4rem;
             color: var(--primary-color);
-            z-index: 1;
-            display: none; /* Hide icon when image is present */
+            display: none;
+        }
+
+        /* Show fallback icon if image fails to load */
+        .profile-image img[src=""], 
+        .profile-image img:not([src]) {
+            display: none;
+        }
+
+        .profile-image img[src=""]+.fallback-icon, 
+        .profile-image img:not([src])+.fallback-icon {
+            display: block;
         }
 
         .about-text {
@@ -306,6 +317,9 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .card::before {
@@ -338,6 +352,12 @@
         .card p {
             color: var(--text-secondary);
             line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .card .tag {
+            margin-top: auto;
+            padding-top: 1rem;
         }
 
         /* Skills Grid */
@@ -567,8 +587,11 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content fade-in">
                 <div class="profile-image">
-                    <img src="prof.jpg" alt="Laurence De Guzman" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <i class="fas fa-user"></i>
+                    <!-- Try multiple possible filenames -->
+                    <img src="prof.jpg" alt="Laurence De Guzman" 
+                         onerror="this.onerror=null; this.src='./prof.jpg'; if(this.complete && this.naturalHeight==0) { this.style.display='none'; this.nextElementSibling.style.display='block'; }"
+                         onload="this.nextElementSibling.style.display='none';">
+                    <i class="fas fa-user fallback-icon"></i>
                 </div>
                 <div class="about-text">
                     <p>
@@ -647,34 +670,44 @@
             <h2 class="section-title">Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-item fade-in">
-                    <i class="fab fa-js-square"></i>
-                    <h4>Full-Stack Development</h4>
-                    <p>MERN Stack, HTML, CSS, JavaScript, RESTful APIs</p>
+                    <i class="fab fa-react"></i>
+                    <h4>Modern Full-Stack Development</h4>
+                    <p>React.js, Next.js, Vue.js, Angular, Node.js, Express.js, Nest.js, TypeScript, Tailwind CSS</p>
+                </div>
+                <div class="skill-item fade-in">
+                    <i class="fas fa-server"></i>
+                    <h4>Backend Technologies</h4>
+                    <p>Node.js, Express.js, Python Django, Flask, FastAPI, PHP Laravel, Java Spring Boot, REST APIs, GraphQL</p>
                 </div>
                 <div class="skill-item fade-in">
                     <i class="fas fa-database"></i>
                     <h4>Database Technologies</h4>
-                    <p>MySQL, PostgreSQL, MongoDB, NoSQL</p>
+                    <p>MySQL, PostgreSQL, MongoDB, Redis, Firebase, Supabase, Prisma ORM, Database Design & Optimization</p>
                 </div>
                 <div class="skill-item fade-in">
                     <i class="fas fa-code"></i>
                     <h4>Programming Languages</h4>
-                    <p>Python, Java, C#, C++, XML</p>
+                    <p>JavaScript, TypeScript, Python, Java, C#, C++, PHP, Go, Rust, XML, JSON</p>
+                </div>
+                <div class="skill-item fade-in">
+                    <i class="fab fa-docker"></i>
+                    <h4>DevOps & Containerization</h4>
+                    <p>Docker, Docker Compose, Kubernetes, CI/CD Pipelines, Git, GitHub Actions, AWS, Vercel, Netlify</p>
+                </div>
+                <div class="skill-item fade-in">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Cybersecurity</h4>
+                    <p>Network Security, Penetration Testing, Vulnerability Assessment, Security Auditing, Ethical Hacking</p>
                 </div>
                 <div class="skill-item fade-in">
                     <i class="fas fa-microchip"></i>
-                    <h4>Hardware & Systems</h4>
-                    <p>Arduino, IoT, Hardware Integration</p>
+                    <h4>Hardware & IoT</h4>
+                    <p>Arduino, Raspberry Pi, Embedded Systems, IoT Development, Hardware Integration, Circuit Design</p>
                 </div>
                 <div class="skill-item fade-in">
                     <i class="fas fa-cogs"></i>
-                    <h4>Enterprise Solutions</h4>
-                    <p>Odoo ERP, System Integration</p>
-                </div>
-                <div class="skill-item fade-in">
-                    <i class="fas fa-brain"></i>
-                    <h4>Soft Skills</h4>
-                    <p>Leadership, Project Management, Consulting</p>
+                    <h4>Enterprise & Leadership</h4>
+                    <p>Odoo ERP, System Integration, Project Management, Team Leadership, Technical Consulting</p>
                 </div>
             </div>
         </div>
