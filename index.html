@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laurence De Guzman - Loading...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0ea5e9;
+            --secondary-color: #1e293b;
+            --accent-color: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --success-color: #10b981;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            animation: backgroundMove 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: translateX(-50px) translateY(-50px) rotate(0deg); }
+            33% { transform: translateX(50px) translateY(-100px) rotate(120deg); }
+            66% { transform: translateX(-100px) translateY(50px) rotate(240deg); }
+        }
+
+        .intro-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .name {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+
+        .title {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.4s forwards;
+        }
+
+        .loading-section {
+            margin: 2rem 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .compile-text {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 1.5rem auto;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .progress-text {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .percentage {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .status-messages {
+            margin-top: 1.5rem;
+            text-align: left;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 4px solid var(--primary-color);
+            max-height: 120px;
+            overflow: hidden;
+        }
+
+        .status-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+            opacity: 0;
+            transform: translateY(10px);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-message.show {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .status-message .success {
+            color: var(--success-color);
+        }
+
+        .status-message .primary {
+            color: var(--primary-color);
+        }
+
+        .status-message .accent {
+            color: var(--accent-color);
+        }
+
+        .complete-section {
+            margin-top: 2rem;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .complete-section.show {
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .enter-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .enter-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+        }
+
+        .enter-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .cursor {
+            animation: pulse 1s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .name {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 1.2rem;
+            }
+            
+            .intro-container {
+                padding: 1rem;
+            }
+            
+            .progress-container {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-container">
+        <h1 class="name">Laurence De Guzman</h1>
+        <p class="title">IT Consultant & Tech Leader</p>
+        
+        <div class="loading-section">
+            <div class="compile-text">
+                <div class="spinner"></div>
+                <span id="compileStatus">Compiling JavaScript...</span>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="progress-text">
+                <span class="percentage" id="percentage">0%</span> complete
+            </div>
+            
+            <div class="status-messages">
+                <div class="status-message" id="msg1">→ Initializing development environment...</div>
+                <div class="status-message" id="msg2">→ Loading <span class="primary">React components</span>...</div>
+                <div class="status-message" id="msg3">→ Connecting to <span class="accent">databases</span>...</div>
+                <div class="status-message" id="msg4">→ Building <span class="primary">full-stack solutions</span>...</div>
+                <div class="status-message" id="msg5">→ Optimizing <span class="accent">performance</span>...</div>
+                <div class="status-message" id="msg6"><span class="success">✓</span> Portfolio ready!</div>
+            </div>
+        </div>
+        
+        <div class="complete-section" id="completeSection">
+            <div class="success-message">
+                <span>✅</span>
+                <span>Compilation successful!</span>
+            </div>
+            <button class="enter-button" onclick="enterPortfolio()">
+                <span>🚀</span>
+                <span>Enter Portfolio</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let progress = 0;
+        let messageIndex = 0;
+        const messages = ['msg1', 'msg2', 'msg3', 'msg4', 'msg5', 'msg6'];
+        const compileTexts = [
+            'Compiling JavaScript...',
+            'Building React components...',
+            'Connecting databases...',
+            'Optimizing full-stack solutions...',
+            'Finalizing portfolio...',
+            'Ready to deploy! 🚀'
+        ];
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const percentage = document.getElementById('percentage');
+            const compileStatus = document.getElementById('compileStatus');
+            
+            progress += Math.random() * 8 + 2; // Random increment between 2-10
+            
+            if (progress > 100) progress = 100;
+            
+            progressBar.style.width = progress + '%';
+            percentage.textContent = Math.floor(progress) + '%';
+            
+            // Show messages progressively
+            const messageThresholds = [10, 25, 45, 65, 85, 95];
+            for (let i = 0; i < messageThresholds.length; i++) {
+                if (progress >= messageThresholds[i] && messageIndex === i) {
+                    document.getElementById(messages[i]).classList.add('show');
+                    if (i < compileTexts.length) {
+                        compileStatus.textContent = compileTexts[i];
+                    }
+                    messageIndex++;
+                    break;
+                }
+            }
+            
+            if (progress >= 100) {
+                setTimeout(() => {
+                    document.querySelector('.loading-section').style.opacity = '0.7';
+                    document.getElementById('completeSection').classList.add('show');
+                    
+                    // Hide spinner
+                    document.querySelector('.spinner').style.display = 'none';
+                    compileStatus.innerHTML = '<span style="color: var(--success-color);">✅ Compilation complete!</span>';
+                }, 500);
+            } else {
+                setTimeout(updateProgress, 150 + Math.random() * 200);
+            }
+        }
+        
+        function enterPortfolio() {
+            // Add exit animation
+            document.body.style.transition = 'all 0.5s ease-out';
+            document.body.style.transform = 'scale(0.9)';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                // Redirect to your main portfolio
+                window.location.href = 'portfolio.html'; // Change this to your portfolio file name
+            }, 500);
+        }
+        
+        // Start the loading animation after a brief delay
+        setTimeout(updateProgress, 1000);
+        
+        // Add some random console logs for extra developer feel
+        setTimeout(() => {
+            console.log('🔧 Development server starting...');
+        }, 500);
+        
+        setTimeout(() => {
+            console.log('⚡ Fast refresh enabled');
+        }, 2000);
+        
+        setTimeout(() => {
+            console.log('🎯 Ready for connections');
+        }, 4000);
+    </script>
+</body>
+</html>
