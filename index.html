@@ -587,11 +587,11 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content fade-in">
                 <div class="profile-image">
-                    <!-- Try multiple possible filenames -->
-                    <img src="prof.jpg" alt="Laurence De Guzman" 
-                         onerror="this.onerror=null; this.src='./prof.jpg'; if(this.complete && this.naturalHeight==0) { this.style.display='none'; this.nextElementSibling.style.display='block'; }"
-                         onload="this.nextElementSibling.style.display='none';">
-                    <i class="fas fa-user fallback-icon"></i>
+                    <!-- Multiple fallback attempts for the image -->
+                    <img id="profileImg" src="prof.jpg" alt="Laurence De Guzman" 
+                         onerror="handleImageError(this)"
+                         onload="handleImageLoad(this)">
+                    <i class="fas fa-user fallback-icon" id="fallbackIcon"></i>
                 </div>
                 <div class="about-text">
                     <p>
@@ -814,6 +814,44 @@
     </footer>
 
     <script>
+        // Image loading handlers
+        function handleImageLoad(img) {
+            console.log('✅ Image loaded successfully:', img.src);
+            document.getElementById('fallbackIcon').style.display = 'none';
+            img.style.display = 'block';
+        }
+
+        function handleImageError(img) {
+            console.log('❌ Image failed to load:', img.src);
+            
+            // Try different variations of the filename
+            const alternatives = [
+                'prof.jpg',
+                './prof.jpg', 
+                'Prof.jpg',
+                'prof.JPG',
+                'PROF.JPG',
+                'prof.png',
+                'prof.jpeg'
+            ];
+            
+            const currentIndex = alternatives.indexOf(img.src.split('/').pop());
+            const nextIndex = currentIndex + 1;
+            
+            if (nextIndex < alternatives.length) {
+                console.log('🔄 Trying alternative:', alternatives[nextIndex]);
+                img.src = alternatives[nextIndex];
+            } else {
+                console.log('🚫 All alternatives failed, showing fallback icon');
+                img.style.display = 'none';
+                document.getElementById('fallbackIcon').style.display = 'block';
+                
+                // Show helpful debugging info
+                console.log('📁 Make sure prof.jpg is in the same folder as index.html');
+                console.log('🌐 Check if the file exists at:', window.location.origin + window.location.pathname.replace('index.html', '') + 'prof.jpg');
+            }
+        }
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
