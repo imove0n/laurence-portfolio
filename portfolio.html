@@ -271,9 +271,6 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
         }
 
         .btn-primary {
@@ -289,62 +286,12 @@
         .btn-outline {
             border: 2px solid var(--border-color);
             color: var(--text-primary);
-            background: transparent;
         }
 
         .btn-outline:hover {
             border-color: var(--primary-color);
             color: var(--primary-color);
             transform: translateY(-2px);
-        }
-
-        /* Loading and Success States for Submit Button */
-        .btn-loading {
-            opacity: 0.7;
-            cursor: not-allowed;
-            position: relative;
-        }
-
-        .btn-loading::after {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            margin: auto;
-            border: 2px solid transparent;
-            border-top: 2px solid #ffffff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            right: 8px;
-        }
-
-        .btn-success {
-            background: #10b981 !important;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Alert Messages */
-        .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
-        }
-
-        .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
         }
 
         /* Section Styling */
@@ -780,7 +727,6 @@
             color: var(--text-primary);
             font-size: 1rem;
             transition: all 0.3s ease;
-            font-family: inherit;
         }
 
         .form-group input:focus,
@@ -914,6 +860,59 @@
                     <i class="fas fa-envelope"></i>
                     Email Me
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content fade-in">
+                <div class="profile-image">
+                    <!-- Multiple fallback attempts for the image -->
+                    <img id="profileImg" src="prof.jpg" alt="Laurence De Guzman" 
+                         onerror="handleImageError(this)"
+                         onload="handleImageLoad(this)">
+                    <i class="fas fa-user fallback-icon" id="fallbackIcon"></i>
+                </div>
+                <div class="about-text">
+                    <p>
+                        I'm a 22-year-old Tech enthusiast and TUP Manila graduate with a BTVTED Major in Computer Programming. 
+                        My tech journey began in Grade 7 converting GBA games for Nokia phones, then evolved during my college years 
+                        from a confused 2nd year student creating my first HTML/CSS portfolio to mastering full-stack development with MERN stack.
+                    </p>
+                    <p>
+                        As Chief Operations Officer of Google Developer Student Clubs TUP Manila and through my OJT at Elyon Solutions 
+                        working with Odoo ERP systems, I've developed both technical expertise and leadership skills. From Arduino car projects 
+                        to database design, from CRUD operations to modern NoSQL databases - I'm passionate about continuous learning 
+                        and nothing can stop me from growing in technology.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="current-learning fade-in">
+                <h3 style="color: var(--text-primary); margin-bottom: 1rem; text-align: center;">
+                    <i class="fas fa-rocket" style="color: var(--primary-color); margin-right: 8px;"></i>
+                    Currently Learning & Growing
+                </h3>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1rem;">
+                    "Nothing can stop me from learning" - Currently expanding my skills in cutting-edge technologies
+                </p>
+                <div class="learning-tags">
+                    <span class="tag">Next.js & TypeScript</span>
+                    <span class="tag">Docker & Kubernetes</span>
+                    <span class="tag">GraphQL & Prisma</span>
+                    <span class="tag">AWS & Cloud Services</span>
+                    <span class="tag">Cybersecurity & Ethical Hacking</span>
+                    <span class="tag">Microservices Architecture</span>
+                    <span class="tag">Redis & Caching</span>
+                    <span class="tag">CI/CD Pipelines</span>
+                    <span class="tag">Vue.js & Nuxt.js</span>
+                    <span class="tag">FastAPI & Django</span>
+                    <span class="tag">Supabase & Firebase</span>
+                    <span class="tag">Penetration Testing</span>
+                </div>
             </div>
         </div>
     </section>
@@ -1118,17 +1117,7 @@
                     </div>
                 </div>
 
-                <!-- Contact Form with EmailJS Integration -->
-                <form class="fade-in" id="contactForm">
-                    <div class="alert alert-success" id="successAlert">
-                        <i class="fas fa-check-circle"></i>
-                        Message sent successfully! I'll get back to you soon.
-                    </div>
-                    <div class="alert alert-error" id="errorAlert">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Failed to send message. Please try again or email me directly.
-                    </div>
-                    
+                <form class="fade-in" onsubmit="handleSubmit(event)">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" required>
@@ -1138,16 +1127,12 @@
                         <input type="email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject" required placeholder="What's this about?">
-                    </div>
-                    <div class="form-group">
                         <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" required placeholder="Tell me about your project or inquiry..."></textarea>
+                        <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%; justify-content: center;">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
                         <i class="fas fa-paper-plane"></i>
-                        <span id="submitText">Send Message</span>
+                        Send Message
                     </button>
                 </form>
             </div>
@@ -1162,79 +1147,7 @@
         </div>
     </footer>
 
-    <!-- EmailJS SDK -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js"></script>
-    
     <script>
-        // Initialize EmailJS
-        (function() {
-            emailjs.init("nBLKDneiC3rU02xZ_"); // Your public key
-        })();
-
-        // Contact Form Handler with EmailJS
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const submitText = document.getElementById('submitText');
-            const successAlert = document.getElementById('successAlert');
-            const errorAlert = document.getElementById('errorAlert');
-            
-            // Hide any previous alerts
-            successAlert.style.display = 'none';
-            errorAlert.style.display = 'none';
-            
-            // Show loading state
-            submitBtn.classList.add('btn-loading');
-            submitBtn.disabled = true;
-            submitText.textContent = 'Sending...';
-            
-            // Prepare template parameters to match your EmailJS template
-            const templateParams = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                subject: document.getElementById('subject').value,
-                message: document.getElementById('message').value
-            };
-            
-            // Send email using EmailJS
-            emailjs.send('service_6irrupm', 'template_vulbg28', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    
-                    // Show success state
-                    submitBtn.classList.remove('btn-loading');
-                    submitBtn.classList.add('btn-success');
-                    submitText.textContent = 'Message Sent!';
-                    successAlert.style.display = 'block';
-                    
-                    // Reset form
-                    document.getElementById('contactForm').reset();
-                    
-                    // Reset button after 3 seconds
-                    setTimeout(() => {
-                        submitBtn.classList.remove('btn-success');
-                        submitBtn.disabled = false;
-                        submitText.textContent = 'Send Message';
-                        successAlert.style.display = 'none';
-                    }, 3000);
-                    
-                }, function(error) {
-                    console.error('FAILED...', error);
-                    
-                    // Show error state
-                    submitBtn.classList.remove('btn-loading');
-                    submitBtn.disabled = false;
-                    submitText.textContent = 'Send Message';
-                    errorAlert.style.display = 'block';
-                    
-                    // Hide error after 5 seconds
-                    setTimeout(() => {
-                        errorAlert.style.display = 'none';
-                    }, 5000);
-                });
-        });
-
         // Mouse Spotlight Effect
         const spotlight = document.getElementById('mouseSpotlight');
         let mouseX = 0;
@@ -1411,6 +1324,22 @@
             });
         });
 
+        // Form submission handler
+        function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            const subject = `Portfolio Contact from ${data.name}`;
+            const body = `Hi Laurence,\n\n${data.message}\n\nBest regards,\n${data.name}\n${data.email}`;
+            const emailLink = `mailto:laurencedeguzman04142003@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = emailLink;
+            
+            alert(`Thanks ${data.name}! Your email client will open to send the message.`);
+            event.target.reset();
+        }
+
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
@@ -1497,57 +1426,4 @@
         window.addEventListener('scroll', updateSpotlightOnScroll);
     </script>
 </body>
-</html>>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content fade-in">
-                <div class="profile-image">
-                    <!-- Multiple fallback attempts for the image -->
-                    <img id="profileImg" src="prof.jpg" alt="Laurence De Guzman" 
-                         onerror="handleImageError(this)"
-                         onload="handleImageLoad(this)">
-                    <i class="fas fa-user fallback-icon" id="fallbackIcon"></i>
-                </div>
-                <div class="about-text">
-                    <p>
-                        I'm a 22-year-old Tech enthusiast and TUP Manila graduate with a BTVTED Major in Computer Programming. 
-                        My tech journey began in Grade 7 converting GBA games for Nokia phones, then evolved during my college years 
-                        from a confused 2nd year student creating my first HTML/CSS portfolio to mastering full-stack development with MERN stack.
-                    </p>
-                    <p>
-                        As Chief Operations Officer of Google Developer Student Clubs TUP Manila and through my OJT at Elyon Solutions 
-                        working with Odoo ERP systems, I've developed both technical expertise and leadership skills. From Arduino car projects 
-                        to database design, from CRUD operations to modern NoSQL databases - I'm passionate about continuous learning 
-                        and nothing can stop me from growing in technology.
-                    </p>
-                </div>
-            </div>
-            
-            <div class="current-learning fade-in">
-                <h3 style="color: var(--text-primary); margin-bottom: 1rem; text-align: center;">
-                    <i class="fas fa-rocket" style="color: var(--primary-color); margin-right: 8px;"></i>
-                    Currently Learning & Growing
-                </h3>
-                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1rem;">
-                    "Nothing can stop me from learning" - Currently expanding my skills in cutting-edge technologies
-                </p>
-                <div class="learning-tags">
-                    <span class="tag">Next.js & TypeScript</span>
-                    <span class="tag">Docker & Kubernetes</span>
-                    <span class="tag">GraphQL & Prisma</span>
-                    <span class="tag">AWS & Cloud Services</span>
-                    <span class="tag">Cybersecurity & Ethical Hacking</span>
-                    <span class="tag">Microservices Architecture</span>
-                    <span class="tag">Redis & Caching</span>
-                    <span class="tag">CI/CD Pipelines</span>
-                    <span class="tag">Vue.js & Nuxt.js</span>
-                    <span class="tag">FastAPI & Django</span>
-                    <span class="tag">Supabase & Firebase</span>
-                    <span class="tag">Penetration Testing</span>
-                </div>
-            </div>
-        </div>
-    </section
+</html>
