@@ -246,6 +246,75 @@
             transform: translateY(-1px) scale(1.02);
         }
 
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .audio-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .audio-btn:hover {
+            background: rgba(14, 165, 233, 0.2);
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .audio-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 20px;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+        }
+
+        .volume-control:hover {
+            border-color: var(--primary-color);
+        }
+
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 2px;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -271,6 +340,43 @@
             animation: pulse 1s infinite;
         }
 
+        /* Audio visualizer effect */
+        @keyframes audioWave {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
+        }
+
+        .audio-wave {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 40px;
+            height: 20px;
+            display: flex;
+            align-items: end;
+            gap: 2px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .audio-wave.active {
+            opacity: 0.7;
+        }
+
+        .audio-wave span {
+            width: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            animation: audioWave 1.5s ease-in-out infinite;
+        }
+
+        .audio-wave span:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .audio-wave span:nth-child(2) { height: 12px; animation-delay: 0.1s; }
+        .audio-wave span:nth-child(3) { height: 16px; animation-delay: 0.2s; }
+        .audio-wave span:nth-child(4) { height: 10px; animation-delay: 0.3s; }
+        .audio-wave span:nth-child(5) { height: 14px; animation-delay: 0.4s; }
+
         /* Responsive */
         @media (max-width: 600px) {
             .name {
@@ -288,10 +394,40 @@
             .progress-container {
                 max-width: 300px;
             }
+
+            .audio-controls {
+                bottom: 15px;
+                right: 15px;
+                scale: 0.9;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Audio element -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="electronic-game2-332868.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Audio visualizer -->
+    <div class="audio-wave" id="audioWave">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Audio controls -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="playPauseBtn" title="Play/Pause Music">🎵</button>
+        <div class="volume-control">
+            <span style="font-size: 12px;">🔊</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30" title="Volume">
+        </div>
+    </div>
+
     <div class="intro-container">
         <h1 class="name">Laurence De Guzman</h1>
         <p class="title">IT Consultant & Tech Leader</p>
@@ -322,17 +458,70 @@
         
         <div class="complete-section" id="completeSection">
             <div class="success-message">
-                <span> </span>
+                <span>✨</span>
                 <span>Compilation successful!</span>
             </div>
             <button class="enter-button" onclick="enterPortfolio()">
-                <span> </span>
+                <span>🚀</span>
                 <span>Enter Portfolio</span>
             </button>
         </div>
     </div>
 
     <script>
+        // Audio management
+        const audio = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const audioWave = document.getElementById('audioWave');
+        
+        let isPlaying = false;
+        
+        // Set initial volume
+        audio.volume = 0.3;
+        
+        // Play/Pause functionality
+        playPauseBtn.addEventListener('click', toggleAudio);
+        
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.textContent = '🎵';
+                playPauseBtn.classList.remove('active');
+                audioWave.classList.remove('active');
+                isPlaying = false;
+            } else {
+                audio.play().catch(e => {
+                    console.log('Audio play failed:', e);
+                    // Show a user-friendly message
+                    playPauseBtn.textContent = '🔊';
+                });
+                playPauseBtn.textContent = '⏸️';
+                playPauseBtn.classList.add('active');
+                audioWave.classList.add('active');
+                isPlaying = true;
+            }
+        }
+        
+        // Volume control
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value / 100;
+        });
+        
+        // Auto-play attempt (will work if user has interacted with the page)
+        function attemptAutoPlay() {
+            audio.play().then(() => {
+                isPlaying = true;
+                playPauseBtn.textContent = '⏸️';
+                playPauseBtn.classList.add('active');
+                audioWave.classList.add('active');
+            }).catch(e => {
+                console.log('Autoplay prevented by browser policy');
+                // Audio will remain paused, user can click to play
+            });
+        }
+
+        // Loading animation variables
         let progress = 0;
         let messageIndex = 0;
         const messages = ['msg1', 'msg2', 'msg3', 'msg4', 'msg5', 'msg6'];
@@ -342,7 +531,7 @@
             'Connecting databases...',
             'Optimizing full-stack solutions...',
             'Finalizing portfolio...',
-            'Ready to deploy! '
+            'Ready to deploy! ✨'
         ];
 
         function updateProgress() {
@@ -377,7 +566,7 @@
                     
                     // Hide spinner
                     document.querySelector('.spinner').style.display = 'none';
-                    compileStatus.innerHTML = '<span style="color: var(--success-color);">Compilation complete!</span>';
+                    compileStatus.innerHTML = '<span style="color: var(--success-color);">Compilation complete! ✓</span>';
                 }, 500);
             } else {
                 setTimeout(updateProgress, 150 + Math.random() * 200);
@@ -385,6 +574,20 @@
         }
         
         function enterPortfolio() {
+            // Fade out audio
+            if (isPlaying) {
+                let currentVolume = audio.volume;
+                const fadeOut = setInterval(() => {
+                    if (currentVolume > 0.1) {
+                        currentVolume -= 0.1;
+                        audio.volume = currentVolume;
+                    } else {
+                        audio.pause();
+                        clearInterval(fadeOut);
+                    }
+                }, 100);
+            }
+            
             // Add exit animation
             document.body.style.transition = 'all 0.5s ease-out';
             document.body.style.transform = 'scale(0.9)';
@@ -396,21 +599,39 @@
             }, 500);
         }
         
-        // Start the loading animation after a brief delay
-        setTimeout(updateProgress, 1000);
+        // Start the loading animation and attempt autoplay
+        setTimeout(() => {
+            updateProgress();
+            attemptAutoPlay();
+        }, 1000);
         
         // Add some random console logs for extra developer feel
         setTimeout(() => {
-            console.log(' Development server starting...');
+            console.log('🎵 Development server starting...');
         }, 500);
         
         setTimeout(() => {
-            console.log(' Fast refresh enabled');
+            console.log('⚡ Fast refresh enabled');
         }, 2000);
         
         setTimeout(() => {
-            console.log(' Ready for connections');
+            console.log('🚀 Ready for connections');
         }, 4000);
+
+        // Handle audio loading states
+        audio.addEventListener('loadstart', () => {
+            console.log('🎵 Loading background music...');
+        });
+
+        audio.addEventListener('canplaythrough', () => {
+            console.log('🎵 Music ready to play');
+        });
+
+        audio.addEventListener('error', (e) => {
+            console.error('🚫 Audio loading error:', e);
+            playPauseBtn.textContent = '❌';
+            playPauseBtn.disabled = true;
+        });
     </script>
     <script defer src="https://vercel.com/analytics/script.js"></script>
 </body>
