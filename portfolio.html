@@ -33,6 +33,203 @@
             cursor: none; /* Hide default cursor for custom spotlight */
         }
 
+        /* Audio Player Styles */
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            min-width: 200px;
+        }
+
+        .audio-player:hover {
+            background: rgba(30, 41, 59, 1);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.2);
+        }
+
+        .audio-player.minimized {
+            min-width: 60px;
+            padding: 15px;
+        }
+
+        .audio-player.minimized .audio-info,
+        .audio-player.minimized .audio-controls,
+        .audio-player.minimized .volume-control {
+            display: none;
+        }
+
+        .play-pause-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .play-pause-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+        }
+
+        .audio-info {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .audio-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+
+        .audio-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 4px;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            color: var(--primary-color);
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .minimize-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .minimize-btn:hover {
+            color: var(--primary-color);
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        /* Audio visualizer effect */
+        .audio-visualizer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .audio-player.playing .audio-visualizer {
+            opacity: 1;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 0 10px rgba(14, 165, 233, 0);
+            }
+        }
+
       /* Custom Mouse Animation Effect */
         .mouse-spotlight {
             position: fixed;
@@ -810,10 +1007,65 @@
             .floating-char.small { font-size: 1rem; }
             .floating-char.medium { font-size: 1.8rem; }
             .floating-char.large { font-size: 2.5rem; }
+
+            .audio-player {
+                bottom: 10px;
+                right: 10px;
+                min-width: 180px;
+                padding: 12px 16px;
+            }
+
+            .audio-player.minimized {
+                min-width: 50px;
+                padding: 12px;
+            }
+
+            .audio-title {
+                font-size: 0.8rem;
+            }
+
+            .volume-slider {
+                width: 40px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <source src="3-01. Hateno Village.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Audio Player UI -->
+    <div class="audio-player" id="audioPlayer">
+        <div class="audio-visualizer"></div>
+        <button class="play-pause-btn" id="playPauseBtn">
+            <i class="fas fa-play" id="playPauseIcon"></i>
+        </button>
+        <div class="audio-info">
+            <div class="audio-title">Hateno Village</div>
+            <div class="audio-progress">
+                <span id="currentTime">0:00</span>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+        <div class="audio-controls">
+            <button class="control-btn" id="muteBtn" title="Mute/Unmute">
+                <i class="fas fa-volume-up" id="muteIcon"></i>
+            </button>
+        </div>
+        <div class="volume-control">
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+        </div>
+        <button class="minimize-btn" id="minimizeBtn" title="Minimize Player">
+            <i class="fas fa-minus"></i>
+        </button>
+    </div>
+
     <!-- Mouse Spotlight Effect -->
     <div class="mouse-spotlight" id="mouseSpotlight"></div>
 
@@ -1424,6 +1676,215 @@
         }
 
         window.addEventListener('scroll', updateSpotlightOnScroll);
+
+        // Audio Player Functionality
+        class AudioPlayer {
+            constructor() {
+                this.audio = document.getElementById('backgroundMusic');
+                this.player = document.getElementById('audioPlayer');
+                this.playPauseBtn = document.getElementById('playPauseBtn');
+                this.playPauseIcon = document.getElementById('playPauseIcon');
+                this.progressBar = document.getElementById('progressBar');
+                this.progressFill = document.getElementById('progressFill');
+                this.currentTimeEl = document.getElementById('currentTime');
+                this.durationEl = document.getElementById('duration');
+                this.volumeSlider = document.getElementById('volumeSlider');
+                this.muteBtn = document.getElementById('muteBtn');
+                this.muteIcon = document.getElementById('muteIcon');
+                this.minimizeBtn = document.getElementById('minimizeBtn');
+
+                this.isPlaying = false;
+                this.isMuted = false;
+                this.isMinimized = false;
+                this.previousVolume = 50;
+
+                this.initializePlayer();
+                this.bindEvents();
+            }
+
+            initializePlayer() {
+                // Set initial volume
+                this.audio.volume = 0.5;
+                this.volumeSlider.value = 50;
+
+                // Load audio metadata
+                this.audio.addEventListener('loadedmetadata', () => {
+                    this.updateDuration();
+                });
+
+                // Try to load the audio
+                this.audio.load();
+            }
+
+            bindEvents() {
+                // Play/Pause button
+                this.playPauseBtn.addEventListener('click', () => {
+                    this.togglePlayPause();
+                });
+
+                // Progress bar click
+                this.progressBar.addEventListener('click', (e) => {
+                    const rect = this.progressBar.getBoundingClientRect();
+                    const percent = (e.clientX - rect.left) / rect.width;
+                    this.audio.currentTime = percent * this.audio.duration;
+                });
+
+                // Volume slider
+                this.volumeSlider.addEventListener('input', (e) => {
+                    const volume = e.target.value / 100;
+                    this.audio.volume = volume;
+                    this.updateVolumeIcon(volume);
+                });
+
+                // Mute button
+                this.muteBtn.addEventListener('click', () => {
+                    this.toggleMute();
+                });
+
+                // Minimize button
+                this.minimizeBtn.addEventListener('click', () => {
+                    this.toggleMinimize();
+                });
+
+                // Audio events
+                this.audio.addEventListener('timeupdate', () => {
+                    this.updateProgress();
+                });
+
+                this.audio.addEventListener('ended', () => {
+                    // Loop is handled by the loop attribute, but we can add custom behavior here
+                    this.updatePlayPauseIcon(false);
+                });
+
+                // Error handling
+                this.audio.addEventListener('error', (e) => {
+                    console.error('Audio error:', e);
+                    this.showError();
+                });
+
+                // Can play event
+                this.audio.addEventListener('canplay', () => {
+                    console.log('Audio can play');
+                });
+            }
+
+            async togglePlayPause() {
+                try {
+                    if (this.isPlaying) {
+                        this.audio.pause();
+                        this.isPlaying = false;
+                        this.player.classList.remove('playing');
+                    } else {
+                        await this.audio.play();
+                        this.isPlaying = true;
+                        this.player.classList.add('playing');
+                    }
+                    this.updatePlayPauseIcon(this.isPlaying);
+                } catch (error) {
+                    console.error('Error playing audio:', error);
+                    this.showError();
+                }
+            }
+
+            updatePlayPauseIcon(playing) {
+                this.playPauseIcon.className = playing ? 'fas fa-pause' : 'fas fa-play';
+            }
+
+            updateProgress() {
+                if (this.audio.duration) {
+                    const percent = (this.audio.currentTime / this.audio.duration) * 100;
+                    this.progressFill.style.width = percent + '%';
+                    this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
+                }
+            }
+
+            updateDuration() {
+                this.durationEl.textContent = this.formatTime(this.audio.duration);
+            }
+
+            formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = Math.floor(seconds % 60);
+                return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+
+            toggleMute() {
+                if (this.isMuted) {
+                    this.audio.volume = this.previousVolume / 100;
+                    this.volumeSlider.value = this.previousVolume;
+                    this.isMuted = false;
+                } else {
+                    this.previousVolume = this.volumeSlider.value;
+                    this.audio.volume = 0;
+                    this.volumeSlider.value = 0;
+                    this.isMuted = true;
+                }
+                this.updateVolumeIcon(this.audio.volume);
+            }
+
+            updateVolumeIcon(volume) {
+                if (volume === 0) {
+                    this.muteIcon.className = 'fas fa-volume-mute';
+                } else if (volume < 0.5) {
+                    this.muteIcon.className = 'fas fa-volume-down';
+                } else {
+                    this.muteIcon.className = 'fas fa-volume-up';
+                }
+            }
+
+            toggleMinimize() {
+                this.isMinimized = !this.isMinimized;
+                if (this.isMinimized) {
+                    this.player.classList.add('minimized');
+                    this.minimizeBtn.querySelector('i').className = 'fas fa-plus';
+                    this.minimizeBtn.title = 'Expand Player';
+                } else {
+                    this.player.classList.remove('minimized');
+                    this.minimizeBtn.querySelector('i').className = 'fas fa-minus';
+                    this.minimizeBtn.title = 'Minimize Player';
+                }
+            }
+
+            showError() {
+                // Show error state
+                document.querySelector('.audio-title').textContent = 'Audio Unavailable';
+                this.playPauseBtn.disabled = true;
+                this.playPauseBtn.style.opacity = '0.5';
+                
+                // Show helpful message
+                setTimeout(() => {
+                    if (confirm('The audio file "3-01. Hateno Village.mp3" could not be loaded. Make sure the file is in the same folder as this HTML file. Would you like to hide the audio player?')) {
+                        this.player.style.display = 'none';
+                    }
+                }, 1000);
+            }
+        }
+
+        // Initialize audio player when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for other animations to start
+            setTimeout(() => {
+                new AudioPlayer();
+            }, 2000);
+        });
+
+        // Add audio player interaction with mouse spotlight
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            audioPlayer.addEventListener('mouseenter', () => {
+                if (spotlight && window.innerWidth > 768) {
+                    spotlight.classList.add('hover');
+                }
+            });
+            
+            audioPlayer.addEventListener('mouseleave', () => {
+                if (spotlight && window.innerWidth > 768) {
+                    spotlight.classList.remove('hover');
+                }
+            });
+        });
     </script>
     <script defer src="https://vercel.com/analytics/script.js"></script>
 </body>
