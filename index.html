@@ -49,6 +49,78 @@
             z-index: -1;
         }
 
+        /* Floating Code Symbols */
+        .floating-symbols {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .symbol {
+            position: absolute;
+            color: rgba(14, 165, 233, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .symbol:nth-child(1) { 
+            top: 10%; left: 10%; font-size: 24px; 
+            animation-delay: 0s; animation-duration: 18s;
+        }
+        .symbol:nth-child(2) { 
+            top: 20%; right: 15%; font-size: 32px; 
+            animation-delay: -3s; animation-duration: 22s;
+        }
+        .symbol:nth-child(3) { 
+            top: 60%; left: 5%; font-size: 28px; 
+            animation-delay: -6s; animation-duration: 20s;
+        }
+        .symbol:nth-child(4) { 
+            bottom: 20%; right: 10%; font-size: 26px; 
+            animation-delay: -9s; animation-duration: 16s;
+        }
+        .symbol:nth-child(5) { 
+            top: 40%; left: 80%; font-size: 30px; 
+            animation-delay: -12s; animation-duration: 24s;
+        }
+        .symbol:nth-child(6) { 
+            bottom: 40%; left: 20%; font-size: 22px; 
+            animation-delay: -2s; animation-duration: 19s;
+        }
+        .symbol:nth-child(7) { 
+            top: 70%; right: 40%; font-size: 34px; 
+            animation-delay: -8s; animation-duration: 21s;
+        }
+        .symbol:nth-child(8) { 
+            top: 30%; left: 50%; font-size: 25px; 
+            animation-delay: -5s; animation-duration: 17s;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+                opacity: 0.1; 
+            }
+            25% { 
+                transform: translateY(-20px) rotate(5deg); 
+                opacity: 0.15; 
+            }
+            50% { 
+                transform: translateY(-10px) rotate(-3deg); 
+                opacity: 0.08; 
+            }
+            75% { 
+                transform: translateY(-30px) rotate(8deg); 
+                opacity: 0.12; 
+            }
+        }
+
         @keyframes backgroundMove {
             0%, 100% { transform: translateX(-50px) translateY(-50px) rotate(0deg); }
             33% { transform: translateX(50px) translateY(-100px) rotate(120deg); }
@@ -166,19 +238,24 @@
             text-align: left;
             background: rgba(30, 41, 59, 0.3);
             border-radius: 8px;
-            padding: 1rem;
+            padding: 0.5rem 1rem;
             border-left: 4px solid var(--primary-color);
-            max-height: 120px;
+            max-height: 140px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         .status-message {
             font-size: 0.9rem;
             color: var(--text-secondary);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
             opacity: 0;
             transform: translateY(10px);
             font-family: 'JetBrains Mono', monospace;
+            padding-left: 0;
+            line-height: 1.3;
         }
 
         .status-message.show {
@@ -282,64 +359,6 @@
             border-color: var(--primary-color);
         }
 
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(14, 165, 233, 0.3);
-            border-radius: 20px;
-            padding: 5px 10px;
-            transition: all 0.3s ease;
-        }
-
-        .volume-control:hover {
-            border-color: var(--primary-color);
-        }
-
-        .volume-slider {
-            width: 60px;
-            height: 4px;
-            background: rgba(148, 163, 184, 0.3);
-            border-radius: 2px;
-            appearance: none;
-            cursor: pointer;
-        }
-
-        .volume-slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 12px;
-            height: 12px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
-
-        .cursor {
-            animation: pulse 1s infinite;
-        }
-
         /* Audio visualizer effect */
         @keyframes audioWave {
             0%, 100% { transform: scaleY(0.3); }
@@ -347,7 +366,6 @@
         }
 
         .audio-wave {
-            display: none;
             position: fixed;
             bottom: 70px;
             right: 20px;
@@ -377,6 +395,31 @@
         .audio-wave span:nth-child(4) { height: 10px; animation-delay: 0.3s; }
         .audio-wave span:nth-child(5) { height: 14px; animation-delay: 0.4s; }
 
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .cursor {
+            animation: pulse 1s infinite;
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             .name {
@@ -400,10 +443,26 @@
                 right: 15px;
                 scale: 0.9;
             }
+
+            .symbol {
+                font-size: 18px !important;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Floating Code Symbols Background -->
+    <div class="floating-symbols">
+        <div class="symbol">{</div>
+        <div class="symbol">}</div>
+        <div class="symbol">;</div>
+        <div class="symbol">{</div>
+        <div class="symbol">}</div>
+        <div class="symbol">;</div>
+        <div class="symbol">{</div>
+        <div class="symbol">}</div>
+    </div>
+
     <!-- Audio element -->
     <audio id="backgroundMusic" preload="auto">
         <source src="electronic-game2-332868.mp3" type="audio/mpeg">
@@ -484,7 +543,7 @@
                 audio.muted = false;
                 muteBtn.textContent = '🔊';
                 muteBtn.classList.add('active');
-                audioWave.classList.add('active');
+                if (!audio.ended) audioWave.classList.add('active');
                 isMuted = false;
             } else {
                 audio.muted = true;
@@ -533,7 +592,7 @@
             'Connecting databases...',
             'Optimizing full-stack solutions...',
             'Finalizing portfolio...',
-            'Ready to deploy! '
+            'Ready to deploy! ✨'
         ];
 
         function updateProgress() {
@@ -613,11 +672,11 @@
         }, 500);
         
         setTimeout(() => {
-            console.log(' Fast refresh enabled');
+            console.log('⚡ Fast refresh enabled');
         }, 2000);
         
         setTimeout(() => {
-            console.log(' Ready for connections');
+            console.log('🚀 Ready for connections');
         }, 4000);
 
         // Handle audio loading states
@@ -631,8 +690,8 @@
 
         audio.addEventListener('error', (e) => {
             console.error('🚫 Audio loading error:', e);
-            playPauseBtn.textContent = '❌';
-            playPauseBtn.disabled = true;
+            muteBtn.textContent = '❌';
+            muteBtn.disabled = true;
         });
     </script>
     <script defer src="https://vercel.com/analytics/script.js"></script>
