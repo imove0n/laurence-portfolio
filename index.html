@@ -405,7 +405,7 @@
 </head>
 <body>
     <!-- Audio element -->
-    <audio id="backgroundMusic" loop preload="auto">
+    <audio id="backgroundMusic" preload="auto">
         <source src="electronic-game2-332868.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -421,11 +421,7 @@
 
     <!-- Audio controls -->
     <div class="audio-controls">
-        <button class="audio-btn" id="playPauseBtn" title="Play/Pause Music">🎵</button>
-        <div class="volume-control">
-            <span style="font-size: 12px;">🔊</span>
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30" title="Volume">
-        </div>
+        <button class="audio-btn active" id="muteBtn" title="Mute/Unmute Music">🔊</button>
     </div>
 
     <div class="intro-container">
@@ -471,55 +467,61 @@
     <script>
         // Audio management
         const audio = document.getElementById('backgroundMusic');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const volumeSlider = document.getElementById('volumeSlider');
+        const muteBtn = document.getElementById('muteBtn');
         const audioWave = document.getElementById('audioWave');
         
-        let isPlaying = false;
+        let isMuted = false;
+        let hasPlayed = false;
         
         // Set initial volume
-        audio.volume = 0.3;
+        audio.volume = 0.4;
         
-        // Play/Pause functionality
-        playPauseBtn.addEventListener('click', toggleAudio);
+        // Mute/Unmute functionality
+        muteBtn.addEventListener('click', toggleMute);
         
-        function toggleAudio() {
-            if (isPlaying) {
-                audio.pause();
-                playPauseBtn.textContent = '🎵';
-                playPauseBtn.classList.remove('active');
-                audioWave.classList.remove('active');
-                isPlaying = false;
-            } else {
-                audio.play().catch(e => {
-                    console.log('Audio play failed:', e);
-                    // Show a user-friendly message
-                    playPauseBtn.textContent = '🔊';
-                });
-                playPauseBtn.textContent = '⏸️';
-                playPauseBtn.classList.add('active');
+        function toggleMute() {
+            if (isMuted) {
+                audio.muted = false;
+                muteBtn.textContent = '🔊';
+                muteBtn.classList.add('active');
                 audioWave.classList.add('active');
-                isPlaying = true;
+                isMuted = false;
+            } else {
+                audio.muted = true;
+                muteBtn.textContent = '🔇';
+                muteBtn.classList.remove('active');
+                audioWave.classList.remove('active');
+                isMuted = true;
             }
         }
         
-        // Volume control
-        volumeSlider.addEventListener('input', function() {
-            audio.volume = this.value / 100;
-        });
-        
-        // Auto-play attempt (will work if user has interacted with the page)
-        function attemptAutoPlay() {
-            audio.play().then(() => {
-                isPlaying = true;
-                playPauseBtn.textContent = '⏸️';
-                playPauseBtn.classList.add('active');
-                audioWave.classList.add('active');
-            }).catch(e => {
-                console.log('Autoplay prevented by browser policy');
-                // Audio will remain paused, user can click to play
-            });
+        // Auto-play function
+        function startAutoPlay() {
+            if (!hasPlayed) {
+                audio.play().then(() => {
+                    hasPlayed = true;
+                    audioWave.classList.add('active');
+                    console.log('🎵 Background music started');
+                }).catch(e => {
+                    console.log('Autoplay prevented, trying on user interaction');
+                    // Try to play on first user interaction
+                    document.addEventListener('click', () => {
+                        if (!hasPlayed) {
+                            audio.play().then(() => {
+                                hasPlayed = true;
+                                audioWave.classList.add('active');
+                            }).catch(err => console.log('Audio play failed:', err));
+                        }
+                    }, { once: true });
+                });
+            }
         }
+        
+        // Handle audio end
+        audio.addEventListener('ended', () => {
+            audioWave.classList.remove('active');
+            console.log('🎵 Background music ended');
+        });
 
         // Loading animation variables
         let progress = 0;
@@ -574,8 +576,8 @@
         }
         
         function enterPortfolio() {
-            // Fade out audio
-            if (isPlaying) {
+            // Fade out audio if still playing
+            if (!audio.ended && !audio.muted) {
                 let currentVolume = audio.volume;
                 const fadeOut = setInterval(() => {
                     if (currentVolume > 0.1) {
@@ -599,10 +601,10 @@
             }, 500);
         }
         
-        // Start the loading animation and attempt autoplay
+        // Start the loading animation and autoplay music
         setTimeout(() => {
             updateProgress();
-            attemptAutoPlay();
+            startAutoPlay();
         }, 1000);
         
         // Add some random console logs for extra developer feel
