@@ -6,44 +6,6 @@
     <title>Laurence De Guzman - IT Consultant & Tech Leader</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-  cursor: url('doto.cur'), auto;
-            }
-  /* Custom Mouse Animation Effect */
-        .mouse-spotlight {
-            position: fixed;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            background: rgba(14, 165, 233, 0.3);
-            transform: translate(-50%, -50%);
-            transition: all 0.15s ease-out;
-            border: 2px solid rgba(14, 165, 233, 0.5);
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
-        }
-
-        .mouse-spotlight.hidden {
-            opacity: 100;
-        }
-
-        .mouse-spotlight.hover {
-            width: 50px;
-            height: 50px;
-            background: rgba(14, 165, 233, 0.2);
-            border: 2px solid rgba(14, 165, 233, 0.6);
-            box-shadow: 0 0 30px rgba(14, 165, 233, 0.6);
-        }
-
-        .mouse-spotlight.click {
-            width: 25px;
-            height: 25px;
-            background: rgba(245, 158, 11, 0.4);
-            border: 2px solid rgba(245, 158, 11, 0.8);
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.7);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -68,10 +30,55 @@
             color: var(--text-primary);
             background-color: var(--bg-primary);
             overflow-x: hidden;
-            cursor: none; /* Hide default cursor for custom spotlight */
         }
 
-        /* Audio Player Styles */
+        /* Mobile-first approach */
+        body {
+            cursor: auto;
+        }
+
+        /* Desktop cursor effects */
+        @media (min-width: 769px) {
+            body {
+                cursor: none;
+            }
+        }
+
+        /* Mouse Spotlight Effect - Desktop Only */
+        .mouse-spotlight {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            background: rgba(14, 165, 233, 0.3);
+            transform: translate(-50%, -50%);
+            transition: all 0.15s ease-out;
+            border: 2px solid rgba(14, 165, 233, 0.5);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+            display: none;
+        }
+
+        @media (min-width: 769px) {
+            .mouse-spotlight {
+                display: block;
+            }
+        }
+
+        .mouse-spotlight.hidden {
+            opacity: 0;
+        }
+
+        .mouse-spotlight.hover {
+            width: 50px;
+            height: 50px;
+            background: rgba(14, 165, 233, 0.2);
+            border: 2px solid rgba(14, 165, 233, 0.6);
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.6);
+        }
+
+        /* Audio Player - Mobile Optimized */
         .audio-player {
             position: fixed;
             bottom: 20px;
@@ -80,26 +87,28 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             border-radius: 50px;
-            padding: 15px 20px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             z-index: 1001;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            min-width: 200px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            min-width: 180px;
+            max-width: calc(100vw - 40px);
         }
 
         .audio-player:hover {
             background: rgba(30, 41, 59, 1);
             border-color: var(--primary-color);
             transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.2);
+            box-shadow: 0 12px 35px rgba(14, 165, 233, 0.2);
         }
 
         .audio-player.minimized {
-            min-width: 60px;
-            padding: 15px;
+            min-width: 50px;
+            padding: 12px;
+            gap: 0;
         }
 
         .audio-player.minimized .audio-info,
@@ -112,30 +121,31 @@
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             color: white;
-            font-size: 16px;
+            font-size: 14px;
             transition: all 0.3s ease;
             flex-shrink: 0;
         }
 
         .play-pause-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
         }
 
         .audio-info {
             flex-grow: 1;
             min-width: 0;
+            overflow: hidden;
         }
 
         .audio-title {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-primary);
             white-space: nowrap;
@@ -147,18 +157,19 @@
         .audio-progress {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
+            gap: 6px;
+            font-size: 0.7rem;
             color: var(--text-secondary);
         }
 
         .progress-bar {
             flex-grow: 1;
-            height: 4px;
+            height: 3px;
             background: rgba(148, 163, 184, 0.2);
             border-radius: 2px;
             overflow: hidden;
             cursor: pointer;
+            min-width: 40px;
         }
 
         .progress-fill {
@@ -168,42 +179,35 @@
             transition: width 0.1s ease;
         }
 
-        .audio-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .control-btn {
+        .control-btn, .minimize-btn {
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 12px;
             cursor: pointer;
-            padding: 5px;
+            padding: 4px;
             border-radius: 50%;
             transition: all 0.3s ease;
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
-        .control-btn:hover {
+        .control-btn:hover, .minimize-btn:hover {
             color: var(--primary-color);
             background: rgba(14, 165, 233, 0.1);
         }
 
         .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: none; /* Hidden on mobile by default */
         }
 
         .volume-slider {
-            width: 60px;
-            height: 4px;
+            width: 40px;
+            height: 3px;
             background: rgba(148, 163, 184, 0.2);
             border-radius: 2px;
             outline: none;
@@ -213,62 +217,69 @@
 
         .volume-slider::-webkit-slider-thumb {
             appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             background: var(--primary-color);
             border-radius: 50%;
             cursor: pointer;
         }
 
-        .minimize-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 12px;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .minimize-btn:hover {
-            color: var(--primary-color);
-            background: rgba(14, 165, 233, 0.1);
-        }
-
-        /* Audio visualizer effect */
-        .audio-visualizer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 50px;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .audio-player.playing .audio-visualizer {
-            opacity: 1;
-            animation: pulse 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4);
+        /* Show volume control on desktop */
+        @media (min-width: 769px) {
+            .volume-control {
+                display: flex;
+                align-items: center;
+                gap: 6px;
             }
-            100% {
-                box-shadow: 0 0 0 10px rgba(14, 165, 233, 0);
+            
+            .audio-player {
+                min-width: 220px;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+            
+            .audio-player.minimized {
+                min-width: 60px;
+                padding: 15px;
+            }
+            
+            .play-pause-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .audio-title {
+                font-size: 0.9rem;
+            }
+            
+            .audio-progress {
+                font-size: 0.8rem;
+                gap: 8px;
+            }
+            
+            .progress-bar {
+                height: 4px;
+            }
+            
+            .control-btn, .minimize-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+                padding: 5px;
+            }
+            
+            .volume-slider {
+                width: 60px;
+                height: 4px;
+            }
+            
+            .volume-slider::-webkit-slider-thumb {
+                width: 12px;
+                height: 12px;
             }
         }
 
-    
         /* Floating Characters Background */
         .floating-chars {
             position: fixed;
@@ -282,10 +293,10 @@
 
         .floating-char {
             position: absolute;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-family: 'Courier New', monospace;
-            color: rgba(14, 165, 233, 0.15);
-            animation: float-and-rotate 12s linear infinite;
+            color: rgba(14, 165, 233, 0.1);
+            animation: float-and-rotate 15s linear infinite;
             font-weight: bold;
         }
 
@@ -306,17 +317,30 @@
             }
         }
 
-        /* Different sizes for variety */
-        .floating-char.small { font-size: 1.5rem; }
-        .floating-char.medium { font-size: 2.5rem; }
-        .floating-char.large { font-size: 3.5rem; }
+        /* Mobile floating chars are smaller */
+        .floating-char.small { font-size: 1rem; }
+        .floating-char.medium { font-size: 1.5rem; }
+        .floating-char.large { font-size: 2rem; }
 
-        /* Navigation */
+        /* Desktop floating chars */
+        @media (min-width: 769px) {
+            .floating-char {
+                font-size: 2rem;
+                color: rgba(14, 165, 233, 0.15);
+                animation-duration: 12s;
+            }
+            
+            .floating-char.small { font-size: 1.5rem; }
+            .floating-char.medium { font-size: 2.5rem; }
+            .floating-char.large { font-size: 3.5rem; }
+        }
+
+        /* Navigation - Mobile First */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
@@ -326,32 +350,49 @@
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 0.8rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--primary-color);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
 
         .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
             object-fit: cover;
         }
 
+        /* Mobile Navigation */
         .nav-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            flex-direction: column;
+            padding: 1rem 0;
+            gap: 0;
+        }
+
+        .nav-menu.active {
             display: flex;
+        }
+
+        .nav-menu li {
             list-style: none;
-            gap: 2rem;
         }
 
         .nav-menu a {
@@ -359,29 +400,91 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
-            position: relative;
+            padding: 1rem 2rem;
+            display: block;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.3);
         }
 
         .nav-menu a:hover {
             color: var(--primary-color);
+            background: rgba(14, 165, 233, 0.05);
         }
 
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
+        .mobile-menu-btn {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
         }
 
-        .nav-menu a:hover::after {
-            width: 100%;
+        .mobile-menu-btn:hover {
+            color: var(--primary-color);
         }
 
-        /* Hero Section */
+        /* Desktop Navigation */
+        @media (min-width: 769px) {
+            .nav-container {
+                padding: 1rem 2rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+                gap: 0.5rem;
+            }
+            
+            .logo img {
+                width: 40px;
+                height: 40px;
+                border-radius: 8px;
+            }
+            
+            .nav-menu {
+                display: flex !important;
+                position: static;
+                width: auto;
+                background: none;
+                backdrop-filter: none;
+                border: none;
+                flex-direction: row;
+                padding: 0;
+                gap: 2rem;
+            }
+            
+            .nav-menu a {
+                padding: 0;
+                border: none;
+                position: relative;
+            }
+            
+            .nav-menu a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -5px;
+                left: 0;
+                background-color: var(--primary-color);
+                transition: width 0.3s ease;
+            }
+            
+            .nav-menu a:hover::after {
+                width: 100%;
+            }
+            
+            .nav-menu a:hover {
+                background: none;
+            }
+            
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        /* Hero Section - Mobile First */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -391,44 +494,45 @@
             position: relative;
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             z-index: 2;
+            padding: 4rem 1rem 2rem;
         }
 
         .hero-content {
-            max-width: 800px;
-            padding: 2rem;
+            max-width: 100%;
+            width: 100%;
             position: relative;
             z-index: 3;
         }
 
         .hero-subtitle {
             color: var(--primary-color);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 500;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             opacity: 0;
             animation: fadeInUp 1s ease 0.2s forwards;
         }
 
         .hero-title {
-            font-size: 4rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--text-primary), var(--primary-color));
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             opacity: 0;
             animation: fadeInUp 1s ease 0.4s forwards;
+            line-height: 1.2;
         }
 
-        /* Typing Animation Container */
         .typing-container {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             opacity: 0;
             animation: fadeInUp 1s ease 0.6s forwards;
-            min-height: 2rem;
+            min-height: 1.5rem;
         }
 
         .typing-text {
@@ -447,12 +551,13 @@
         }
 
         .hero-description {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
+            margin-bottom: 2rem;
+            line-height: 1.6;
             opacity: 0;
             animation: fadeInUp 1s ease 0.8s forwards;
+            padding: 0 1rem;
         }
 
         .hero-buttons {
@@ -462,17 +567,60 @@
             flex-wrap: wrap;
             opacity: 0;
             animation: fadeInUp 1s ease 1s forwards;
+            padding: 0 1rem;
         }
 
+        /* Desktop Hero */
+        @media (min-width: 769px) {
+            .hero {
+                padding: 2rem;
+            }
+            
+            .hero-content {
+                max-width: 800px;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 4rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .typing-container {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+                min-height: 2rem;
+            }
+            
+            .hero-description {
+                font-size: 1.2rem;
+                margin-bottom: 2.5rem;
+                line-height: 1.7;
+                padding: 0;
+            }
+            
+            .hero-buttons {
+                padding: 0;
+            }
+        }
+
+        /* Buttons - Mobile First */
         .btn {
-            padding: 12px 24px;
+            padding: 12px 20px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: 0.9rem;
+            min-width: 140px;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -496,9 +644,19 @@
             transform: translateY(-2px);
         }
 
-        /* Section Styling */
+        /* Desktop buttons */
+        @media (min-width: 769px) {
+            .btn {
+                padding: 12px 24px;
+                gap: 8px;
+                font-size: 1rem;
+                min-width: auto;
+            }
+        }
+
+        /* Section Styling - Mobile First */
         .section {
-            padding: 100px 0;
+            padding: 60px 0;
             position: relative;
             z-index: 2;
         }
@@ -506,92 +664,141 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             position: relative;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            width: 60px;
-            height: 4px;
+            width: 40px;
+            height: 3px;
             background: var(--primary-color);
-            bottom: -10px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
             border-radius: 2px;
         }
 
-        /* About Section */
+        /* Desktop sections */
+        @media (min-width: 769px) {
+            .section {
+                padding: 100px 0;
+            }
+            
+            .container {
+                padding: 0 2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+                margin-bottom: 3rem;
+            }
+            
+            .section-title::after {
+                width: 60px;
+                height: 4px;
+                bottom: -10px;
+            }
+        }
+
+        /* About Section - Mobile First */
         .about-content {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
             align-items: center;
+            text-align: center;
         }
 
         .profile-image {
-            width: 250px;
-            height: 250px;
-            border-radius: 20px;
+            width: 200px;
+            height: 200px;
+            border-radius: 16px;
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto;
             position: relative;
             overflow: hidden;
-            padding: 4px;
+            padding: 3px;
+            margin: 0 auto;
         }
 
         .profile-image img {
-            width: calc(100% - 8px);
-            height: calc(100% - 8px);
+            width: calc(100% - 6px);
+            height: calc(100% - 6px);
             object-fit: cover;
-            border-radius: 16px;
+            border-radius: 13px;
             display: block;
         }
 
         .profile-image .fallback-icon {
-            font-size: 4rem;
+            font-size: 3rem;
             color: var(--primary-color);
             display: none;
         }
 
-        /* Show fallback icon if image fails to load */
-        .profile-image img[src=""], 
-        .profile-image img:not([src]) {
-            display: none;
-        }
-
-        .profile-image img[src=""]+.fallback-icon, 
-        .profile-image img:not([src])+.fallback-icon {
-            display: block;
-        }
-
         .about-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1rem;
+            line-height: 1.7;
             color: var(--text-secondary);
+            max-width: 100%;
         }
 
         .about-text p {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
+        /* Desktop about section */
+        @media (min-width: 769px) {
+            .about-content {
+                display: grid;
+                grid-template-columns: 300px 1fr;
+                gap: 4rem;
+                text-align: left;
+            }
+            
+            .profile-image {
+                width: 250px;
+                height: 250px;
+                border-radius: 20px;
+                padding: 4px;
+            }
+            
+            .profile-image img {
+                border-radius: 16px;
+            }
+            
+            .profile-image .fallback-icon {
+                font-size: 4rem;
+            }
+            
+            .about-text {
+                font-size: 1.1rem;
+                line-height: 1.8;
+            }
+            
+            .about-text p {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        /* Current Learning Section */
         .current-learning {
             background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 16px;
+            padding: 1.5rem;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
-            margin-top: 3rem;
+            margin-top: 2rem;
+            text-align: center;
         }
 
         .learning-tags {
@@ -599,64 +806,74 @@
             flex-wrap: wrap;
             gap: 0.5rem;
             margin-top: 1rem;
+            justify-content: center;
         }
 
         .tag {
             background: rgba(14, 165, 233, 0.1);
             color: var(--primary-color);
             padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            border-radius: 16px;
+            font-size: 0.8rem;
             border: 1px solid rgba(14, 165, 233, 0.2);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            white-space: nowrap;
         }
 
-        /* Enhanced hover animation for learning tags */
         .tag:hover {
-            transform: translateY(-3px) scale(1.05);
+            transform: translateY(-2px) scale(1.02);
             background: rgba(14, 165, 233, 0.2);
             border-color: var(--primary-color);
-            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
             color: var(--text-primary);
         }
 
-        .tag::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+        /* Desktop learning section */
+        @media (min-width: 769px) {
+            .current-learning {
+                padding: 2rem;
+                border-radius: 16px;
+                margin-top: 3rem;
+            }
+            
+            .tag {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+                border-radius: 20px;
+            }
+            
+            .tag:hover {
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3);
+            }
+            
+            .learning-tags {
+                justify-content: flex-start;
+            }
         }
 
-        .tag:hover::before {
-            left: 100%;
-        }
-
-        /* Cards Grid */
+        /* Cards Grid - Mobile First */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 100%;
-            min-height: 280px;
+            height: auto;
+            min-height: 240px;
         }
 
         .card::before {
@@ -665,27 +882,29 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 3px;
             background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             border-color: var(--primary-color);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.1);
         }
 
         .card-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             flex-shrink: 0;
         }
 
         .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
             color: var(--text-primary);
             flex-shrink: 0;
+            line-height: 1.3;
         }
 
         .card-content {
@@ -696,116 +915,202 @@
 
         .card p {
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: 0;
             flex-grow: 1;
+            font-size: 0.95rem;
         }
 
         .card-tags {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.4rem;
             align-items: center;
             justify-content: flex-start;
-            min-height: 35px;
+            min-height: 30px;
         }
 
         .card-tags .tag {
-            background: rgba(14, 165, 233, 0.1);
-            color: var(--primary-color);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(14, 165, 233, 0.2);
-            white-space: nowrap;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            height: 24px;
             display: inline-flex;
             align-items: center;
-            height: 28px;
         }
 
-        /* Skills Grid */
+        /* Desktop cards */
+        @media (min-width: 769px) {
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+            
+            .card {
+                border-radius: 16px;
+                padding: 2rem;
+                min-height: 280px;
+            }
+            
+            .card::before {
+                height: 4px;
+            }
+            
+            .card:hover {
+                transform: translateY(-5px);
+            }
+            
+            .card-icon {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .card h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            
+            .card p {
+                line-height: 1.6;
+                font-size: 1rem;
+            }
+            
+            .card-tags {
+                margin-top: 1.5rem;
+                gap: 0.5rem;
+                min-height: 35px;
+            }
+            
+            .card-tags .tag {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+                height: 28px;
+            }
+        }
+
+        /* Skills Grid - Mobile First */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         .skill-item {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 10px;
+            padding: 1.2rem;
             text-align: center;
             transition: all 0.3s ease;
         }
 
         .skill-item:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: var(--primary-color);
         }
 
         .skill-item i {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .skill-item h4 {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             color: var(--text-primary);
+            font-size: 1rem;
         }
 
         .skill-item p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
-        /* Resume Section */
+        /* Desktop skills */
+        @media (min-width: 769px) {
+            .skills-grid {
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+            
+            .skill-item {
+                border-radius: 12px;
+                padding: 1.5rem;
+            }
+            
+            .skill-item:hover {
+                transform: translateY(-3px);
+            }
+            
+            .skill-item i {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .skill-item h4 {
+                margin-bottom: 0.5rem;
+                font-size: 1.1rem;
+            }
+            
+            .skill-item p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+        }
+
+        /* Resume Section - Mobile First */
         .resume-section {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem 0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
             text-align: center;
         }
 
         .resume-section h3 {
             color: var(--text-primary);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
         }
 
         .resume-section p {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         .resume-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             justify-content: center;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
         }
 
         .resume-btn {
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
-            padding: 12px 24px;
+            padding: 12px 20px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: 0.9rem;
+            min-width: 160px;
+            justify-content: center;
         }
 
         .resume-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
         }
 
         .resume-btn.secondary {
@@ -819,50 +1124,86 @@
             color: white;
         }
 
-        /* Contact Section */
+        /* Desktop resume */
+        @media (min-width: 769px) {
+            .resume-section {
+                border-radius: 16px;
+                padding: 2rem;
+                margin: 2rem 0;
+            }
+            
+            .resume-section h3 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .resume-section p {
+                margin-bottom: 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .resume-buttons {
+                flex-direction: row;
+                gap: 1rem;
+            }
+            
+            .resume-btn {
+                padding: 12px 24px;
+                gap: 8px;
+                font-size: 1rem;
+                min-width: auto;
+            }
+        }
+
+        /* Contact Section - Mobile First */
         .contact-content {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 100%;
         }
 
         .contact-info {
             text-align: center;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 3rem;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .contact-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
             color: var(--text-primary);
         }
 
         .contact-info p {
             color: var(--text-secondary);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         .contact-links {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+            flex-direction: column;
+            align-items: center;
         }
 
         .contact-link {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             color: var(--primary-color);
             text-decoration: none;
             padding: 8px 16px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
+            min-width: 120px;
+            justify-content: center;
         }
 
         .contact-link:hover {
@@ -873,21 +1214,25 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+            flex-direction: column;
+            align-items: center;
         }
 
         .social-link {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             color: white;
             text-decoration: none;
             padding: 10px 16px;
             border-radius: 8px;
             transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 0.9rem;
+            min-width: 140px;
+            justify-content: center;
         }
 
         .social-link.facebook {
@@ -908,26 +1253,76 @@
             transform: translateY(-2px);
         }
 
+        /* Desktop contact */
+        @media (min-width: 769px) {
+            .contact-content {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            
+            .contact-info {
+                border-radius: 16px;
+                padding: 2rem;
+                margin-bottom: 3rem;
+            }
+            
+            .contact-info h3 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .contact-info p {
+                margin-bottom: 1rem;
+                font-size: 1rem;
+            }
+            
+            .contact-links {
+                flex-direction: row;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+            
+            .contact-link {
+                gap: 0.5rem;
+                font-size: 1rem;
+                min-width: auto;
+            }
+            
+            .social-links {
+                flex-direction: row;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            
+            .social-link {
+                gap: 0.5rem;
+                font-size: 1rem;
+                min-width: auto;
+            }
+        }
+
+        /* Form Styling - Mobile First */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             font-weight: 500;
             color: var(--text-primary);
+            font-size: 0.9rem;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 14px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             color: var(--text-primary);
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
         }
 
@@ -935,14 +1330,37 @@
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.1);
         }
 
-        /* Footer */
+        /* Desktop form */
+        @media (min-width: 769px) {
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-group label {
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+            }
+            
+            .form-group input,
+            .form-group textarea {
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+            
+            .form-group input:focus,
+            .form-group textarea:focus {
+                box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            }
+        }
+
+        /* Footer - Mobile First */
         .footer {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
             position: relative;
             z-index: 2;
@@ -950,14 +1368,27 @@
 
         .footer p {
             color: var(--text-secondary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        /* Desktop footer */
+        @media (min-width: 769px) {
+            .footer {
+                padding: 2rem 0;
+            }
+            
+            .footer p {
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+            }
         }
 
         /* Enhanced Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -965,72 +1396,106 @@
             }
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            body {
-                cursor: auto; /* Show cursor on mobile */
+        /* Desktop animations */
+        @media (min-width: 769px) {
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
-            
-            .mouse-spotlight {
-                display: none; /* Hide spotlight on mobile */
-            }
+        }
 
-            .nav-menu {
-                display: none;
-            }
+        /* Fade-in effects */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
 
-            .hero-title {
-                font-size: 2.5rem;
-            }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-            .about-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .contact-links {
-                flex-direction: column;
-            }
-
-            .social-links {
-                flex-direction: column;
-            }
-
-            .resume-buttons {
-                flex-direction: column;
-            }
-
-            .floating-char {
-                font-size: 1.5rem;
-            }
-            
-            .floating-char.small { font-size: 1rem; }
-            .floating-char.medium { font-size: 1.8rem; }
-            .floating-char.large { font-size: 2.5rem; }
-
+        /* Audio Player Mobile Specific Adjustments */
+        @media (max-width: 480px) {
             .audio-player {
-                bottom: 10px;
-                right: 10px;
-                min-width: 180px;
-                padding: 12px 16px;
+                bottom: 15px;
+                right: 15px;
+                min-width: 160px;
+                max-width: calc(100vw - 30px);
             }
-
+            
             .audio-player.minimized {
-                min-width: 50px;
-                padding: 12px;
+                min-width: 45px;
             }
-
+            
             .audio-title {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
+            
+            .audio-progress {
+                font-size: 0.65rem;
+            }
+        }
 
-            .volume-slider {
-                width: 40px;
+        /* Very small screens */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .container {
+                padding: 0 0.8rem;
+            }
+            
+            .hero {
+                padding: 4rem 0.8rem 2rem;
+            }
+            
+            .btn {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                min-width: 120px;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            .floating-char {
+                animation: none;
+            }
+            
+            .cursor {
+                animation: none;
+            }
+            
+            .tag:hover {
+                transform: none;
+            }
+            
+            .card:hover {
+                transform: none;
+            }
+            
+            .btn:hover {
+                transform: none;
+            }
+        }
+
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .card, .skill-item, .contact-info, .resume-section {
+                border-width: 2px;
             }
         }
     </style>
@@ -1044,7 +1509,6 @@
 
     <!-- Audio Player UI -->
     <div class="audio-player" id="audioPlayer">
-        <div class="audio-visualizer"></div>
         <button class="play-pause-btn" id="playPauseBtn">
             <i class="fas fa-play" id="playPauseIcon"></i>
         </button>
@@ -1084,15 +1548,18 @@
                 <img src="logo.png" alt="Laurence De Guzman Logo" onerror="this.style.display='none'">
                 Laurence De Guzman
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#resume">Resume</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" onclick="closeMenu()">Home</a></li>
+                <li><a href="#about" onclick="closeMenu()">About</a></li>
+                <li><a href="#experience" onclick="closeMenu()">Experience</a></li>
+                <li><a href="#skills" onclick="closeMenu()">Skills</a></li>
+                <li><a href="#projects" onclick="closeMenu()">Projects</a></li>
+                <li><a href="#resume" onclick="closeMenu()">Resume</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
             </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMenu()">
+                <i class="fas fa-bars" id="menuIcon"></i>
+            </button>
         </div>
     </nav>
 
@@ -1127,7 +1594,6 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content fade-in">
                 <div class="profile-image">
-                    <!-- Multiple fallback attempts for the image -->
                     <img id="profileImg" src="prof.jpg" alt="Laurence De Guzman" 
                          onerror="handleImageError(this)"
                          onload="handleImageLoad(this)">
@@ -1149,11 +1615,11 @@
             </div>
             
             <div class="current-learning fade-in">
-                <h3 style="color: var(--text-primary); margin-bottom: 1rem; text-align: center;">
+                <h3 style="color: var(--text-primary); margin-bottom: 1rem;">
                     <i class="fas fa-rocket" style="color: var(--primary-color); margin-right: 8px;"></i>
                     Currently Learning & Growing
                 </h3>
-                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1rem;">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
                     "Nothing can stop me from learning" - Currently expanding my skills in cutting-edge technologies
                 </p>
                 <div class="learning-tags">
@@ -1183,29 +1649,35 @@
                     <div class="card-icon">
                         <i class="fas fa-users-cog"></i>
                     </div>
-                    <h3>Chief Operations Officer</h3>
-                    <p><strong>Google Developer Student Clubs - TUP Manila | 2024-2025</strong></p>
-                    <p>Directed organizational strategies and execution across events. Coordinated multiple teams for event readiness, 
-                    participant engagement, and served as emcee for UI/UX workshops and AI events.</p>
+                    <div class="card-content">
+                        <h3>Chief Operations Officer</h3>
+                        <p><strong>Google Developer Student Clubs - TUP Manila | 2024-2025</strong></p>
+                        <p>Directed organizational strategies and execution across events. Coordinated multiple teams for event readiness, 
+                        participant engagement, and served as emcee for UI/UX workshops and AI events.</p>
+                    </div>
                 </div>
                 <div class="card fade-in">
                     <div class="card-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
-                    <h3>IT Consultant (OJT)</h3>
-                    <p><strong>Elyon Solutions | 2024</strong></p>
-                    <p>Participated in live client demos and business meetings. Gained hands-on experience with Odoo ERP system, 
-                    XML data handling, PostgreSQL databases, and advised clients on implementation strategies.</p>
+                    <div class="card-content">
+                        <h3>IT Consultant (OJT)</h3>
+                        <p><strong>Elyon Solutions | 2024</strong></p>
+                        <p>Participated in live client demos and business meetings. Gained hands-on experience with Odoo ERP system, 
+                        XML data handling, PostgreSQL databases, and advised clients on implementation strategies.</p>
+                    </div>
                 </div>
                 <div class="card fade-in">
                     <div class="card-icon">
                         <i class="fas fa-tools"></i>
                     </div>
-                    <h3>Technical Support & Software Developer</h3>
-                    <p><strong>Freelance | 2022-Present</strong></p>
-                    <p>Self-started multi-service tech business serving clients through social media. Services include hardware diagnostics 
-                    and repairs for phones/laptops/desktops, custom software development, and academic thesis assistance for students. 
-                    Providing comprehensive tech solutions with competitive pricing.</p>
+                    <div class="card-content">
+                        <h3>Technical Support & Software Developer</h3>
+                        <p><strong>Freelance | 2022-Present</strong></p>
+                        <p>Self-started multi-service tech business serving clients through social media. Services include hardware diagnostics 
+                        and repairs for phones/laptops/desktops, custom software development, and academic thesis assistance for students. 
+                        Providing comprehensive tech solutions with competitive pricing.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1269,39 +1741,45 @@
                     <div class="card-icon">
                         <i class="fas fa-robot"></i>
                     </div>
-                    <h3>AI Chatbot for BTVTED Students</h3>
-                    <p>AI-powered chatbot built with Next.js to support programming students with continuous learning, 
-                    addressing gaps in traditional teaching methods.</p>
-                    <div style="margin-top: 1rem;">
-                        <span class="tag">Next.js</span>
-                        <span class="tag">AI/ML</span>
-                        <span class="tag">Educational Tech</span>
+                    <div class="card-content">
+                        <h3>AI Chatbot for BTVTED Students</h3>
+                        <p>AI-powered chatbot built with Next.js to support programming students with continuous learning, 
+                        addressing gaps in traditional teaching methods.</p>
+                        <div class="card-tags">
+                            <span class="tag">Next.js</span>
+                            <span class="tag">AI/ML</span>
+                            <span class="tag">Educational Tech</span>
+                        </div>
                     </div>
                 </div>
                 <div class="card fade-in">
                     <div class="card-icon">
                         <i class="fas fa-car"></i>
                     </div>
-                    <h3>Arduino Smart Car</h3>
-                    <p>Built an Arduino-based car equipped with sensors and running lights. Combined programming 
-                    with electronics, expanding skills into IoT and embedded systems.</p>
-                    <div style="margin-top: 1rem;">
-                        <span class="tag">Arduino</span>
-                        <span class="tag">C++</span>
-                        <span class="tag">IoT</span>
+                    <div class="card-content">
+                        <h3>Arduino Smart Car</h3>
+                        <p>Built an Arduino-based car equipped with sensors and running lights. Combined programming 
+                        with electronics, expanding skills into IoT and embedded systems.</p>
+                        <div class="card-tags">
+                            <span class="tag">Arduino</span>
+                            <span class="tag">C++</span>
+                            <span class="tag">IoT</span>
+                        </div>
                     </div>
                 </div>
                 <div class="card fade-in">
                     <div class="card-icon">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <h3>Automated Department Database System</h3>
-                    <p>Built an automated online examination system with pre-loaded questions and answers. Features automatic 
-                    pass/fail checking and real-time score recording, eliminating manual grading processes for the department.</p>
-                    <div style="margin-top: 1rem;">
-                        <span class="tag">MySQL</span>
-                        <span class="tag">Automation</span>
-                        <span class="tag">Online Testing</span>
+                    <div class="card-content">
+                        <h3>Automated Department Database System</h3>
+                        <p>Built an automated online examination system with pre-loaded questions and answers. Features automatic 
+                        pass/fail checking and real-time score recording, eliminating manual grading processes for the department.</p>
+                        <div class="card-tags">
+                            <span class="tag">MySQL</span>
+                            <span class="tag">Automation</span>
+                            <span class="tag">Online Testing</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1314,7 +1792,7 @@
             <h2 class="section-title">Resume</h2>
             <div class="resume-section fade-in">
                 <div style="text-align: center; margin-bottom: 2rem;">
-                    <i class="fas fa-file-alt" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                    <i class="fas fa-file-alt" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
                 </div>
                 <h3>
                     <i class="fas fa-download" style="margin-right: 8px;"></i>
@@ -1332,7 +1810,7 @@
                     </a>
                 </div>
                 <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">
                         <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
                         Resume files will be available soon. In the meantime, feel free to contact me directly for the most up-to-date version.
                     </p>
@@ -1405,49 +1883,82 @@
     </footer>
 
     <script>
-        // Mouse Spotlight Effect
+        // Mobile Menu Functionality
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                menuIcon.className = 'fas fa-times';
+            } else {
+                menuIcon.className = 'fas fa-bars';
+            }
+        }
+
+        function closeMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            
+            navMenu.classList.remove('active');
+            menuIcon.className = 'fas fa-bars';
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.getElementById('navMenu');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navContainer = document.querySelector('.nav-container');
+            
+            if (!navContainer.contains(event.target) && navMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Mouse Spotlight Effect (Desktop Only)
         const spotlight = document.getElementById('mouseSpotlight');
         let mouseX = 0;
         let mouseY = 0;
         let isMouseMoving = false;
         let mouseMoveTimeout;
 
-        // Update spotlight position
         function updateSpotlight() {
-            spotlight.style.left = mouseX + 'px';
-            spotlight.style.top = mouseY + 'px';
+            if (window.innerWidth > 768) {
+                spotlight.style.left = mouseX + 'px';
+                spotlight.style.top = mouseY + 'px';
+            }
         }
 
-        // Mouse move handler
         document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth <= 768) return; // Skip on mobile
+            
             mouseX = e.clientX;
             mouseY = e.clientY;
             isMouseMoving = true;
             
-            // Show spotlight
             spotlight.classList.remove('hidden');
             updateSpotlight();
             
-            // Hide spotlight when mouse stops moving
             clearTimeout(mouseMoveTimeout);
             mouseMoveTimeout = setTimeout(() => {
                 isMouseMoving = false;
             }, 100);
         });
 
-        // Hide spotlight when mouse leaves the window
         document.addEventListener('mouseleave', () => {
-            spotlight.classList.add('hidden');
+            if (window.innerWidth > 768) {
+                spotlight.classList.add('hidden');
+            }
         });
 
-        // Show spotlight when mouse enters the window
         document.addEventListener('mouseenter', () => {
-            if (window.innerWidth > 768) { // Only on desktop
+            if (window.innerWidth > 768) {
                 spotlight.classList.remove('hidden');
             }
         });
 
-        // Enhanced Typing Animation with Capitalized Words
+        // Enhanced Typing Animation
         const words = ['Design', 'Innovate', 'Build', 'Create', 'Develop', 'Code', 'Optimize', 'Debug'];
         let currentWordIndex = 0;
         let currentText = '';
@@ -1487,46 +1998,46 @@
             }
         }
 
-        // Start typing animation when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(typeWriter, 1500); // Start after hero animations
-        });
-
-        // Floating Characters
+        // Floating Characters (Optimized for Mobile)
         function createFloatingChar() {
             const chars = ['{', '}', '<', '>', '(', ')', '[', ']', ';', ':', '=', '+', '-', '*', '/', '%', '&', '|', '!', '?'];
             const sizes = ['small', 'medium', 'large'];
             const colors = [
-                'rgba(14, 165, 233, 0.15)',
-                'rgba(245, 158, 11, 0.15)',
-                'rgba(16, 185, 129, 0.15)',
-                'rgba(139, 92, 246, 0.15)'
+                'rgba(14, 165, 233, 0.1)',
+                'rgba(245, 158, 11, 0.1)',
+                'rgba(16, 185, 129, 0.1)',
+                'rgba(139, 92, 246, 0.1)'
             ];
+            
+            // Reduce frequency on mobile
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile && Math.random() > 0.6) return;
             
             const char = document.createElement('div');
             char.className = `floating-char ${sizes[Math.floor(Math.random() * sizes.length)]}`;
             char.textContent = chars[Math.floor(Math.random() * chars.length)];
             char.style.left = Math.random() * 100 + '%';
             char.style.color = colors[Math.floor(Math.random() * colors.length)];
-            char.style.animationDuration = (Math.random() * 8 + 8) + 's';
+            char.style.animationDuration = (Math.random() * 8 + (isMobile ? 12 : 8)) + 's';
             char.style.animationDelay = Math.random() * 2 + 's';
             
             document.getElementById('floatingChars').appendChild(char);
             
-            // Remove the character after animation completes
             setTimeout(() => {
                 if (char.parentNode) {
                     char.parentNode.removeChild(char);
                 }
-            }, 15000);
+            }, 18000);
         }
 
-        // Create floating characters periodically
-        setInterval(createFloatingChar, 800);
+        // Create floating characters with different intervals for mobile/desktop
+        const floatingInterval = window.innerWidth <= 768 ? 1200 : 800;
+        setInterval(createFloatingChar, floatingInterval);
 
-        // Create initial batch of characters
-        for (let i = 0; i < 15; i++) {
-            setTimeout(createFloatingChar, i * 200);
+        // Create initial batch
+        const initialCount = window.innerWidth <= 768 ? 8 : 15;
+        for (let i = 0; i < initialCount; i++) {
+            setTimeout(createFloatingChar, i * 300);
         }
 
         // Image loading handlers
@@ -1539,7 +2050,6 @@
         function handleImageError(img) {
             console.log('❌ Image failed to load:', img.src);
             
-            // Try different variations of the filename
             const alternatives = [
                 'prof.jpg',
                 './prof.jpg', 
@@ -1560,10 +2070,6 @@
                 console.log('🚫 All alternatives failed, showing fallback icon');
                 img.style.display = 'none';
                 document.getElementById('fallbackIcon').style.display = 'block';
-                
-                // Show helpful debugging info
-                console.log('📁 Make sure prof.jpg is in the same folder as index.html');
-                console.log('🌐 Check if the file exists at:', window.location.origin + window.location.pathname.replace('index.html', '') + 'prof.jpg');
             }
         }
 
@@ -1573,9 +2079,11 @@
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    // Account for mobile navbar height
+                    const offsetTop = target.offsetTop - (window.innerWidth <= 768 ? 60 : 80);
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
                     });
                 }
             });
@@ -1600,17 +2108,20 @@
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-            } else {
-                navbar.style.background = 'rgba(15, 23, 42, 0.9)';
-            }
+            const scrolled = window.scrollY > 50;
+            
+            navbar.style.background = scrolled 
+                ? 'rgba(15, 23, 42, 0.98)' 
+                : 'rgba(15, 23, 42, 0.95)';
+            navbar.style.borderBottom = scrolled 
+                ? '1px solid rgba(14, 165, 233, 0.3)' 
+                : '1px solid var(--border-color)';
         });
 
-        // Enhanced scroll animations
+        // Intersection Observer for animations
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            rootMargin: '0px 0px -30px 0px'
         };
 
         const observer = new IntersectionObserver(function(entries) {
@@ -1622,17 +2133,18 @@
         }, observerOptions);
 
         // Observe all elements with animation classes
-        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .section-title').forEach(el => {
+        document.querySelectorAll('.fade-in, .section-title').forEach(el => {
             observer.observe(el);
         });
 
-        // Staggered animation for cards
+        // Staggered animation for cards (mobile optimized)
         const cardObserver = new IntersectionObserver(function(entries) {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
+                    const delay = window.innerWidth <= 768 ? index * 50 : index * 100;
                     setTimeout(() => {
                         entry.target.classList.add('visible');
-                    }, index * 100); // Stagger by 100ms
+                    }, delay);
                 }
             });
         }, observerOptions);
@@ -1641,46 +2153,20 @@
             cardObserver.observe(el);
         });
 
-        // Enhanced interactive hover effects
-        document.querySelectorAll('.card, .skill-item').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-12px) scale(1.03)';
-                this.style.boxShadow = '0 25px 50px rgba(14, 165, 233, 0.15)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-                this.style.boxShadow = 'none';
-            });
-        });
-
-        // Enhanced navbar scroll animation
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            const scrolled = window.scrollY > 50;
-            
-            navbar.style.background = scrolled 
-                ? 'rgba(15, 23, 42, 0.98)' 
-                : 'rgba(15, 23, 42, 0.9)';
-            navbar.style.borderBottom = scrolled 
-                ? '1px solid rgba(14, 165, 233, 0.3)' 
-                : '1px solid var(--border-color)';
-        });
-
-        // Animate spotlight on scroll for extra effect
-        let ticking = false;
-        function updateSpotlightOnScroll() {
-            if (!ticking && window.innerWidth > 768) {
-                requestAnimationFrame(() => {
-                    // Add subtle pulsing effect during scroll
-                    spotlight.style.transform = `translate(-50%, -50%) scale(${1 + Math.sin(Date.now() * 0.005) * 0.1})`;
-                    ticking = false;
+        // Touch-friendly hover effects for mobile
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('.card, .skill-item, .tag').forEach(item => {
+                item.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
                 });
-                ticking = true;
-            }
+                
+                item.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
         }
-
-        window.addEventListener('scroll', updateSpotlightOnScroll);
 
         // Audio Player Functionality
         class AudioPlayer {
@@ -1708,68 +2194,52 @@
             }
 
             initializePlayer() {
-                // Set initial volume
                 this.audio.volume = 0.5;
                 this.volumeSlider.value = 50;
 
-                // Load audio metadata
                 this.audio.addEventListener('loadedmetadata', () => {
                     this.updateDuration();
                 });
 
-                // Try to load the audio
                 this.audio.load();
             }
 
             bindEvents() {
-                // Play/Pause button
                 this.playPauseBtn.addEventListener('click', () => {
                     this.togglePlayPause();
                 });
 
-                // Progress bar click
                 this.progressBar.addEventListener('click', (e) => {
                     const rect = this.progressBar.getBoundingClientRect();
                     const percent = (e.clientX - rect.left) / rect.width;
                     this.audio.currentTime = percent * this.audio.duration;
                 });
 
-                // Volume slider
                 this.volumeSlider.addEventListener('input', (e) => {
                     const volume = e.target.value / 100;
                     this.audio.volume = volume;
                     this.updateVolumeIcon(volume);
                 });
 
-                // Mute button
                 this.muteBtn.addEventListener('click', () => {
                     this.toggleMute();
                 });
 
-                // Minimize button
                 this.minimizeBtn.addEventListener('click', () => {
                     this.toggleMinimize();
                 });
 
-                // Audio events
                 this.audio.addEventListener('timeupdate', () => {
                     this.updateProgress();
                 });
 
                 this.audio.addEventListener('ended', () => {
-                    // Loop is handled by the loop attribute, but we can add custom behavior here
                     this.updatePlayPauseIcon(false);
                 });
 
-                // Error handling
                 this.audio.addEventListener('error', (e) => {
                     console.error('Audio error:', e);
                     this.showError();
-                });
-
-                // Can play event
-                this.audio.addEventListener('canplay', () => {
-                    console.log('Audio can play');
                 });
             }
 
@@ -1852,45 +2322,63 @@
             }
 
             showError() {
-                // Show error state
                 document.querySelector('.audio-title').textContent = 'Audio Unavailable';
                 this.playPauseBtn.disabled = true;
                 this.playPauseBtn.style.opacity = '0.5';
                 
-                // Show helpful message
                 setTimeout(() => {
-                    if (confirm('The audio file "3-01. Hateno Village.mp3" could not be loaded. Make sure the file is in the same folder as this HTML file. Would you like to hide the audio player?')) {
+                    if (confirm('The audio file "3-01. Hateno Village.mp3" could not be loaded. Would you like to hide the audio player?')) {
                         this.player.style.display = 'none';
                     }
                 }, 1000);
             }
         }
 
-        // Initialize audio player when page loads
+        // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Wait a bit for other animations to start
+            // Start typing animation
+            setTimeout(typeWriter, 1500);
+            
+            // Initialize audio player
             setTimeout(() => {
                 new AudioPlayer();
             }, 2000);
+            
+            // Handle window resize for responsive adjustments
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    // Close mobile menu on resize to desktop
+                    if (window.innerWidth > 768) {
+                        closeMenu();
+                    }
+                    
+                    // Update floating chars frequency
+                    const floatingChars = document.querySelectorAll('.floating-char');
+                    if (window.innerWidth <= 768 && floatingChars.length > 8) {
+                        // Remove some chars on mobile
+                        for (let i = 8; i < floatingChars.length; i++) {
+                            floatingChars[i].remove();
+                        }
+                    }
+                }, 250);
+            });
         });
 
-        // Add audio player interaction with mouse spotlight
-        document.addEventListener('DOMContentLoaded', function() {
-            const audioPlayer = document.getElementById('audioPlayer');
-            
-            audioPlayer.addEventListener('mouseenter', () => {
-                if (spotlight && window.innerWidth > 768) {
-                    spotlight.classList.add('hover');
-                }
-            });
-            
-            audioPlayer.addEventListener('mouseleave', () => {
-                if (spotlight && window.innerWidth > 768) {
-                    spotlight.classList.remove('hover');
-                }
-            });
-        });
+        // Prevent zoom on double tap for iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Add passive touch event listeners for better performance
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        document.addEventListener('touchmove', function() {}, { passive: true });
     </script>
-    <script defer src="https://vercel.com/analytics/script.js"></script>
 </body>
 </html>
