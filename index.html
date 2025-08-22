@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laurence De Guzman - Loading...</title>
     <style>
-            body {
-  cursor: url('doto.cur'), auto;
-    }
+        body {
+            cursor: url('doto.cur'), auto;
+        }
 
-
-        
         * {
             margin: 0;
             padding: 0;
@@ -32,13 +30,14 @@
             font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             color: var(--text-primary);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             position: relative;
+            padding: 1rem;
         }
 
         /* Background Animation */
@@ -76,35 +75,35 @@
         }
 
         .symbol:nth-child(1) { 
-            top: 10%; left: 10%; font-size: 24px; 
+            top: 10%; left: 10%; font-size: clamp(16px, 4vw, 24px); 
             animation-delay: 0s; animation-duration: 18s;
         }
         .symbol:nth-child(2) { 
-            top: 20%; right: 15%; font-size: 32px; 
+            top: 20%; right: 15%; font-size: clamp(20px, 5vw, 32px); 
             animation-delay: -3s; animation-duration: 22s;
         }
         .symbol:nth-child(3) { 
-            top: 60%; left: 5%; font-size: 28px; 
+            top: 60%; left: 5%; font-size: clamp(18px, 4.5vw, 28px); 
             animation-delay: -6s; animation-duration: 20s;
         }
         .symbol:nth-child(4) { 
-            bottom: 20%; right: 10%; font-size: 26px; 
+            bottom: 20%; right: 10%; font-size: clamp(17px, 4.2vw, 26px); 
             animation-delay: -9s; animation-duration: 16s;
         }
         .symbol:nth-child(5) { 
-            top: 40%; left: 80%; font-size: 30px; 
+            top: 40%; left: 80%; font-size: clamp(19px, 4.8vw, 30px); 
             animation-delay: -12s; animation-duration: 24s;
         }
         .symbol:nth-child(6) { 
-            bottom: 40%; left: 20%; font-size: 22px; 
+            bottom: 40%; left: 20%; font-size: clamp(15px, 3.8vw, 22px); 
             animation-delay: -2s; animation-duration: 19s;
         }
         .symbol:nth-child(7) { 
-            top: 70%; right: 40%; font-size: 34px; 
+            top: 70%; right: 40%; font-size: clamp(21px, 5.2vw, 34px); 
             animation-delay: -8s; animation-duration: 21s;
         }
         .symbol:nth-child(8) { 
-            top: 30%; left: 50%; font-size: 25px; 
+            top: 30%; left: 50%; font-size: clamp(16px, 4.1vw, 25px); 
             animation-delay: -5s; animation-duration: 17s;
         }
 
@@ -135,12 +134,13 @@
 
         .intro-container {
             text-align: center;
-            max-width: 600px;
-            padding: 2rem;
+            max-width: min(90vw, 600px);
+            width: 100%;
+            padding: clamp(1rem, 4vw, 2rem);
         }
 
         .name {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 700;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--text-primary), var(--primary-color));
@@ -149,31 +149,34 @@
             -webkit-text-fill-color: transparent;
             opacity: 0;
             animation: fadeInUp 1s ease 0.2s forwards;
+            line-height: 1.1;
         }
 
         .title {
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 3.5vw, 1.4rem);
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
             font-weight: 400;
             opacity: 0;
             animation: fadeInUp 1s ease 0.4s forwards;
+            line-height: 1.3;
         }
 
         .loading-section {
-            margin: 2rem 0;
+            margin: clamp(1.5rem, 4vw, 2rem) 0;
             opacity: 0;
             animation: fadeInUp 1s ease 0.6s forwards;
         }
 
         .compile-text {
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2.8vw, 1.1rem);
             color: var(--primary-color);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .spinner {
@@ -183,6 +186,7 @@
             border-top: 2px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            flex-shrink: 0;
         }
 
         @keyframes spin {
@@ -192,7 +196,7 @@
 
         .progress-container {
             width: 100%;
-            max-width: 400px;
+            max-width: min(90vw, 400px);
             margin: 1.5rem auto;
             background: rgba(30, 41, 59, 0.5);
             border-radius: 10px;
@@ -202,7 +206,7 @@
         }
 
         .progress-bar {
-            height: 8px;
+            height: clamp(6px, 2vw, 8px);
             background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
             border-radius: 10px;
             width: 0%;
@@ -229,7 +233,7 @@
 
         .progress-text {
             margin-top: 1rem;
-            font-size: 1rem;
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
             color: var(--text-secondary);
             font-family: 'JetBrains Mono', monospace;
         }
@@ -244,9 +248,9 @@
             text-align: left;
             background: rgba(30, 41, 59, 0.3);
             border-radius: 8px;
-            padding: 0.5rem 1rem;
+            padding: clamp(0.5rem, 2vw, 1rem);
             border-left: 4px solid var(--primary-color);
-            max-height: 140px;
+            max-height: clamp(120px, 35vw, 140px);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -254,14 +258,15 @@
         }
 
         .status-message {
-            font-size: 0.9rem;
+            font-size: clamp(0.75rem, 2.2vw, 0.9rem);
             color: var(--text-secondary);
             margin-bottom: 0.2rem;
             opacity: 0;
             transform: translateY(10px);
             font-family: 'JetBrains Mono', monospace;
             padding-left: 0;
-            line-height: 1.3;
+            line-height: 1.4;
+            word-break: break-word;
         }
 
         .status-message.show {
@@ -283,7 +288,7 @@
         }
 
         .complete-section {
-            margin-top: 2rem;
+            margin-top: clamp(1.5rem, 4vw, 2rem);
             opacity: 0;
             transform: scale(0.8);
         }
@@ -295,22 +300,23 @@
         }
 
         .success-message {
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 2.8vw, 1.1rem);
             color: var(--success-color);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .enter-button {
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: clamp(10px, 3vw, 12px) clamp(20px, 5vw, 24px);
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -318,6 +324,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            min-height: 44px; /* Touch-friendly minimum */
+            touch-action: manipulation; /* Better touch response */
         }
 
         .enter-button:hover {
@@ -332,8 +340,8 @@
         /* Audio Controls */
         .audio-controls {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: clamp(15px, 4vw, 20px);
+            right: clamp(15px, 4vw, 20px);
             display: flex;
             gap: 10px;
             z-index: 1000;
@@ -343,21 +351,28 @@
             background: rgba(30, 41, 59, 0.8);
             border: 1px solid rgba(14, 165, 233, 0.3);
             color: var(--text-primary);
-            width: 40px;
-            height: 40px;
+            width: clamp(40px, 10vw, 50px);
+            height: clamp(40px, 10vw, 50px);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 16px;
+            font-size: clamp(14px, 3.5vw, 16px);
+            min-height: 44px; /* Touch-friendly minimum */
+            min-width: 44px;
+            touch-action: manipulation;
         }
 
         .audio-btn:hover {
             background: rgba(14, 165, 233, 0.2);
             border-color: var(--primary-color);
             transform: scale(1.1);
+        }
+
+        .audio-btn:active {
+            transform: scale(0.95);
         }
 
         .audio-btn.active {
@@ -373,13 +388,13 @@
 
         .audio-wave {
             position: fixed;
-            bottom: 70px;
-            right: 20px;
-            width: 40px;
-            height: 20px;
+            bottom: clamp(65px, 16vw, 80px);
+            right: clamp(15px, 4vw, 20px);
+            width: clamp(35px, 8vw, 40px);
+            height: clamp(18px, 4.5vw, 20px);
             display: flex;
             align-items: end;
-            gap: 2px;
+            gap: clamp(1px, 0.5vw, 2px);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -389,7 +404,7 @@
         }
 
         .audio-wave span {
-            width: 3px;
+            width: clamp(2px, 0.8vw, 3px);
             background: var(--primary-color);
             border-radius: 2px;
             animation: audioWave 1.5s ease-in-out infinite;
@@ -426,33 +441,107 @@
             animation: pulse 1s infinite;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
+        /* Mobile-specific optimizations */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+            
+            .intro-container {
+                padding: 1rem 0.5rem;
+            }
+            
+            .status-messages {
+                font-size: 0.8rem;
+                padding: 0.75rem;
+            }
+
+            .floating-symbols {
+                transform: scale(0.8);
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 480px) {
             .name {
-                font-size: 2.5rem;
+                margin-bottom: 0.25rem;
             }
             
             .title {
-                font-size: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .status-message {
+                font-size: 0.75rem;
+                line-height: 1.3;
+            }
+            
+            .floating-symbols {
+                transform: scale(0.6);
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1200px) {
+            .intro-container {
+                max-width: 700px;
+            }
+        }
+
+        /* Landscape mobile optimization */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 0.5rem;
             }
             
             .intro-container {
                 padding: 1rem;
             }
             
-            .progress-container {
-                max-width: 300px;
+            .name {
+                font-size: clamp(1.5rem, 6vw, 2.5rem);
             }
-
+            
+            .loading-section {
+                margin: 1rem 0;
+            }
+            
+            .status-messages {
+                max-height: 80px;
+                font-size: 0.75rem;
+            }
+            
             .audio-controls {
-                bottom: 15px;
-                right: 15px;
-                scale: 0.9;
+                scale: 0.8;
             }
+        }
 
-            .symbol {
-                font-size: 18px !important;
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            body {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
             }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .floating-symbols {
+                display: none;
+            }
+        }
+
+        /* Focus styles for keyboard navigation */
+        .enter-button:focus,
+        .audio-btn:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -598,7 +687,7 @@
             'Connecting databases...',
             'Optimizing full-stack solutions...',
             'Finalizing portfolio...',
-            'Ready to deploy! '
+            'Ready to deploy! ✨'
         ];
 
         function updateProgress() {
@@ -674,15 +763,15 @@
         
         // Add some random console logs for extra developer feel
         setTimeout(() => {
-            console.log('🎵 Development server starting...');
+            console.log(' Development server starting...');
         }, 500);
         
         setTimeout(() => {
-            console.log('⚡ Fast refresh enabled');
+            console.log(' Fast refresh enabled');
         }, 2000);
         
         setTimeout(() => {
-            console.log('🚀 Ready for connections');
+            console.log(' Ready for connections');
         }, 4000);
 
         // Handle audio loading states
@@ -699,6 +788,27 @@
             muteBtn.textContent = '❌';
             muteBtn.disabled = true;
         });
+
+        // Handle orientation changes
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                // Force a repaint after orientation change
+                document.body.style.height = '100vh';
+                setTimeout(() => {
+                    document.body.style.height = '';
+                }, 50);
+            }, 100);
+        });
+
+        // Prevent zoom on double tap for iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
     <script defer src="https://vercel.com/analytics/script.js"></script>
 </body>
