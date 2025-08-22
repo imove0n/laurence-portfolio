@@ -668,11 +668,11 @@
         
         <div class="complete-section" id="completeSection">
             <div class="success-message">
-                <span>✨</span>
+                <span></span>
                 <span>Compilation successful!</span>
             </div>
             <button class="enter-button" onclick="enterPortfolio()">
-                <span>🚀</span>
+                <span></span>
                 <span>Enter Portfolio</span>
             </button>
         </div>
@@ -747,7 +747,7 @@
             'Connecting databases...',
             'Optimizing full-stack solutions...',
             'Finalizing portfolio...',
-            'Ready to deploy! ✨'
+            'Ready to deploy! '
         ];
 
         function updateProgress() {
@@ -782,7 +782,7 @@
                     
                     // Hide spinner
                     document.querySelector('.spinner').style.display = 'none';
-                    compileStatus.innerHTML = '<span style="color: var(--success-color);">Compilation complete! ✨</span>';
+                    compileStatus.innerHTML = '<span style="color: var(--success-color);">Compilation complete! </span>';
                 }, 500);
             } else {
                 setTimeout(updateProgress, 150 + Math.random() * 200);
